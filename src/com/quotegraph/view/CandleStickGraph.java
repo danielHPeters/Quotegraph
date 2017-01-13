@@ -8,68 +8,90 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 /**
- * Mit dieser Klasse werden Candlesticks gezeichnet zu eingelesenen Werten.
+ * Generates a Candlestick Graph
  *
- * @version 0.3
- * @author d.peters
+ * @author d.peters@rafisa.ch
  */
 public class CandleStickGraph extends JPanel {
 
     /**
-     * Ursprungsdimension und Hintergrundfarbe der Zeichenfläche müssen hier
-     * geändert werden.
+     * Default width of the graph
      */
-    private final int HOEHE = 600;
-    private final int BREITE = 1000;
-    private final Color HINTERGRUNDFARBE = Color.black;
-
-    public DataLoader data;
+    private final int WIDTH = 1000;
 
     /**
-     * Hintergrund und dimension der Zeichenoberfläche beim Aufruf
-     * initialisieren. Achtung: Farbe und Dimensionen sind in Klassenattributen
-     * gespeichert.
-     *
-     * @param daten
+     * Default height of the graph
      */
-    public CandleStickGraph(DataLoader daten) {
-        this.data = daten;
+    private final int HEIGHT = 600;
+
+    /**
+     * Background color of the Graph
+     */
+    private final Color BACKGROUNDCOLOR = Color.black;
+
+    /**
+     * Reference to the loader loader object. DataLoader is an interface
+     */
+    public DataLoader loader;
+
+    /**
+     * Default constructor. Initializes the reference to the DataLoader object
+     * and the looks of this JPanel
+     *
+     * @param loader
+     */
+    public CandleStickGraph(DataLoader loader) {
+
+        this.loader = loader;
         initAppearance();
 
     }
 
+    /**
+     * Initializes the dimension and the background color of this JPanel
+     */
     private void initAppearance() {
-        setPreferredSize(new Dimension(BREITE, HOEHE));
-        setBackground(HINTERGRUNDFARBE);
+
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setBackground(BACKGROUNDCOLOR);
+
     }
 
     /**
-     * Diese Methode färbt die Candlesticks ein. Wenn der Tag im Plus
-     * geschlossen hat, dann Grun. Wenn negativ dann rot. Bei unveränderten
-     * Werten, dann weiss.
+     * Colors the candlestick by comparing the open and close values.
      *
-     * @param open Aktueller Startwert.
-     * @param close Aktueller Schlusswert.
-     * @return Die zum Kurs passende Farbe.
+     * @param open current open value
+     * @param close current close value
+     * @return color showing a drop or rise of the value
      */
     public Color candleColor(double open, double close) {
+
         Color candleColor;
+
         if (close > open) {
+
             candleColor = Color.green;
+
         } else if (close < open) {
+
             candleColor = Color.red;
+
         } else {
+
             candleColor = Color.white;
+
         }
+
         return candleColor;
     }
 
     /**
-     * Berchnen des oberen Schattens vom Candlestick
+     * Calculate the top shadow of the candlestick
      *
-     * @param high Aktueller Höchstwert
-     * @param openOrClose Aktueller Startwert oder Schlusswert.
-     * @return high - openOrClose
+     * @param high current high
+     * @param openOrClose current open or close
+     * @return high - openOrClose the difference between the two submitted
+     * values
      */
     public double getTopLineLength(double high, double openOrClose) {
 
@@ -77,7 +99,7 @@ public class CandleStickGraph extends JPanel {
     }
 
     /**
-     * Länge des unteren Schattens
+     * Calculate the bottom shadow of the candlestick
      *
      * @param openOrClose Aktueller Start oder Schlusswert
      * @param low Aktueller Niedrigstwert
@@ -89,11 +111,10 @@ public class CandleStickGraph extends JPanel {
     }
 
     /**
-     * Höehe der Kerze Berechnen. Bemerkung: Je nachdem, welcher Wert grösser
-     * ist, ist entweder der Schlusswert oder der Startwert als erster Parameter
+     * Calculate the height of the candle.
      *
-     * @param openOrClose Aktueller Start oder Schlusswert
-     * @param openOrClose1 Aktueller Start oder Schlusswert
+     * @param openOrClose current open or close
+     * @param openOrClose1 current open or close
      * @return
      */
     public double getRectHeight(double openOrClose, double openOrClose1) {
@@ -102,37 +123,38 @@ public class CandleStickGraph extends JPanel {
     }
 
     /**
-     * Zeichnen einer Kerze
+     * Drawing of a candlestick
      *
-     * @param g2 Graphics2D objekt zum Zeichnen
-     * @param open Aktueller Startwert
-     * @param close Aktueller Schlusswert
-     * @param high Aktueller Höchstwert
-     * @param low Aktueller Niedrigstwert
-     * @param xMargin
+     * @param g2 Graphics2D drawing context
+     * @param open current open
+     * @param close current close
+     * @param high current high
+     * @param low curent low
+     * @param xMargin margin on x dimension
      */
     public void drawCandle(Graphics2D g2, double open, double close, double high, double low, int xMargin) {
 
-        double lineTopStartY = 50, lineTopEndY;
-        double rectHeight;
-        double lineBottomStartY, lineBottomEndY;
-        double topLineLength, lowerLineLength;
-        double skalierungsfaktor = 10;
+        double lineTopStartY = 50, lineTopEndY, rectHeight,
+                lineBottomStartY, lineBottomEndY,
+                topLineLength, lowerLineLength, scaleFactor = 10;
 
         if (close > open) {
+
             topLineLength = getTopLineLength(high, close);
             lowerLineLength = getLowLineLength(open, low);
-            rectHeight = getRectHeight(close, open) * skalierungsfaktor;
+            rectHeight = getRectHeight(close, open) * scaleFactor;
 
         } else {
+
             topLineLength = getTopLineLength(high, open);
             lowerLineLength = getLowLineLength(close, low);
-            rectHeight = getRectHeight(open, close) * skalierungsfaktor;
+            rectHeight = getRectHeight(open, close) * scaleFactor;
+
         }
 
-        lineTopEndY = lineTopStartY + topLineLength * skalierungsfaktor;
+        lineTopEndY = lineTopStartY + topLineLength * scaleFactor;
         lineBottomStartY = lineTopEndY + rectHeight;
-        lineBottomEndY = lineBottomStartY + lowerLineLength * skalierungsfaktor;
+        lineBottomEndY = lineBottomStartY + lowerLineLength * scaleFactor;
 
         int rectWidth = 50;
 
@@ -144,23 +166,32 @@ public class CandleStickGraph extends JPanel {
     }
 
     /**
-     * Hauptzeichnenfunktion von JPanel.<br>
-     * Hier werden die Einzelnen Zeichenfunktionen aufgerufen.
+     * Main drawing function draws all items on the JPanel area
      *
      * @param g Graphics Objekt zum Zeichnen
      */
     @Override
     public void paintComponent(Graphics g) {
+
         Graphics2D g2 = (Graphics2D) g;
+
+        int xMargin;
+        double open, close, high, low;
+
         super.paintComponent(g2);
-        int xMargin = 0;
+
+        xMargin = 0;
+
         for (int i = 1400; i < 1410; i++) {
+
+            open = Math.round(loader.getData().get(i).getOpen());
+            close = Math.round(loader.getData().get(i).getClose());
+            high = Math.round(loader.getData().get(i).getHigh());
+            low = Math.round(loader.getData().get(i).getLow());
             xMargin += 200;
-            double open = Math.round(data.getData().get(i).getOpen());
-            double close = Math.round(data.getData().get(i).getClose());
-            double high = Math.round(data.getData().get(i).getHigh());
-            double low = Math.round(data.getData().get(i).getLow());
+
             drawCandle(g2, open, close, high, low, xMargin);
+
         }
     }
 }
