@@ -1,7 +1,7 @@
-package boersendiagramm.view;
+package com.quotegraph.view;
 
-import boersendiagramm.model.DataLoader;
-import boersendiagramm.model.DropDownAction;
+import com.quotegraph.model.DataLoader;
+import com.quotegraph.controller.DropDownAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 

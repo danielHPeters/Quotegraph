@@ -1,4 +1,4 @@
-package boersendiagramm.model;
+package com.quotegraph.controller;
 
 import java.util.Date;
 

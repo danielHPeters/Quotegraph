@@ -1,6 +1,6 @@
-package boersendiagramm.view;
+package com.quotegraph.view;
 
-import boersendiagramm.model.DataLoader;
+import com.quotegraph.model.DataLoader;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

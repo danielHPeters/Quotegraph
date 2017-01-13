@@ -1,15 +1,15 @@
-package boersendiagramm;
+package com.quotegraph;
 
-import boersendiagramm.model.DataLoader;
-import boersendiagramm.model.MysqlLoader;
-import boersendiagramm.model.FileLoader;
-import boersendiagramm.model.CoordinatesCalculator;
-import boersendiagramm.model.DropDownAction;
-import boersendiagramm.view.DataSelect;
-import boersendiagramm.view.LineGraph;
-import boersendiagramm.view.ColumnGraph;
-import boersendiagramm.view.CandleStickGraph;
-import boersendiagramm.view.UserInterface;
+import com.quotegraph.model.DataLoader;
+import com.quotegraph.controller.MysqlLoader;
+import com.quotegraph.controller.FileLoader;
+import com.quotegraph.controller.CoordinatesCalculator;
+import com.quotegraph.controller.DropDownAction;
+import com.quotegraph.view.DataSelect;
+import com.quotegraph.view.LineGraph;
+import com.quotegraph.view.ColumnGraph;
+import com.quotegraph.view.CandleStickGraph;
+import com.quotegraph.view.UserInterface;
 import java.awt.BorderLayout;
 import javax.swing.*;
 

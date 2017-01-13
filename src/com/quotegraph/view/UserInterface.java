@@ -1,4 +1,4 @@
-package boersendiagramm.view;
+package com.quotegraph.view;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;

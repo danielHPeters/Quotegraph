@@ -1,4 +1,6 @@
-package boersendiagramm.model;
+package com.quotegraph.controller;
+
+import com.quotegraph.model.DataLoader;
 
 /**
  *

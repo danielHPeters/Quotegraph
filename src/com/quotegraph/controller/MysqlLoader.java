@@ -1,5 +1,7 @@
-package boersendiagramm.model;
+package com.quotegraph.controller;
 
+import com.quotegraph.model.DataLoader;
+import com.quotegraph.model.DayQuote;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;

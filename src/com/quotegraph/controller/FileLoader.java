@@ -1,5 +1,7 @@
-package boersendiagramm.model;
+package com.quotegraph.controller;
 
+import com.quotegraph.model.DataLoader;
+import com.quotegraph.model.DayQuote;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

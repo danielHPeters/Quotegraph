@@ -1,5 +1,6 @@
-package boersendiagramm.model;
+package com.quotegraph.controller;
 
+import com.quotegraph.model.DataLoader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
