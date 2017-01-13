@@ -14,21 +14,82 @@ import java.awt.BorderLayout;
 import javax.swing.*;
 
 /**
- * In dieser Klasse wird das Programm gestartet. Sonst sollte hier kein anderer
- * Code sein.
- *
+ * This Program displays data from various sources as graphs.
+ * Right now, there are line graphs, column graphs and candlestick graphs available.
+ * The most complete and funtional one ist the line graph.
+ * TODO: 
+ * Improve column and candlestick graphs.
+ * Let the user change the graph types via menu controls.
+ * 
  * @author d.peters
+ * @version 13.01.2017
  */
 public class Main {
 
+    /**
+     * JPanel for drawing graphs. There are currently 3 types
+     */
     private JPanel graph;
+
+    /**
+     * Loads data from a source. There are two types of DataLoaders. One loads
+     * data from an MySQL DB. Another loads the data from a file.
+     */
     private DataLoader loader;
+
+    /**
+     *
+     */
     private CoordinatesCalculator calculator;
+
+    /**
+     * Actionlistener, that listens to dropdown menu change
+     */
     private DropDownAction action;
+
+    /**
+     * Dropown from which the user can select different data
+     */
     private DataSelect dropDown;
+
+    /**
+     * The JFrame window containing all other components
+     */
     private UserInterface ui;
 
+    /**
+     * Default constructor. Initializes all attributes and loads up the UI.
+     */
     public Main() {
+
+        initData();
+
+        if (!this.loader.hasFailed()) {
+
+            this.calculator = new CoordinatesCalculator(loader);
+            this.graph = new LineGraph(loader, calculator);
+            //this.graph = new CandleStickGraph(loader);
+            //this.graph = new ColumnGraph(loader);
+            this.action = new DropDownAction(loader, graph);
+            this.dropDown = new DataSelect(action);
+            this.ui = new UserInterface(dropDown);
+            this.ui.add(graph, BorderLayout.CENTER);
+            this.ui.pack();
+            this.ui.setVisible(true);
+
+        } else {
+
+            dataErrorDialog();
+
+        }
+
+    }
+
+    /**
+     * Try to initialize the DataLoader object, first try MySQL, then files
+     */
+    private void initData() {
+
         this.loader = new MysqlLoader("localhost", "root", "", "boersendaten");
 
         if (this.loader.hasFailed()) {
@@ -54,42 +115,60 @@ public class Main {
 
         }
 
-        if (!this.loader.hasFailed()) {
+    }
 
-            this.calculator = new CoordinatesCalculator(loader);
-            this.graph = new LineGraph(loader, calculator);
-            //this.graph = new CandleStickGraph(loader);
-            //this.graph = new ColumnGraph(loader);
-            this.action = new DropDownAction(loader, graph);
-            this.dropDown = new DataSelect(loader, action);
-            this.ui = new UserInterface(dropDown);
-            this.ui.add(graph, BorderLayout.CENTER);
-            this.ui.pack();
-            this.ui.setVisible(true);
+    /**
+     * Displays a dialog with error message, when no data could be loaded
+     */
+    private void dataErrorDialog() {
 
-        } else {
-            int result;
-            JFrame frame = new JFrame();
-    
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            result = JOptionPane.showConfirmDialog(frame,
-                    "Failed To Load any Data. Please check if the sources are available.",
-                    "Error", JOptionPane.DEFAULT_OPTION);
+        JFrame frame = new JFrame();
+        int result;
 
-            if (result == JOptionPane.YES_OPTION){
-                frame.dispose();
-            }
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        result = JOptionPane.showConfirmDialog(
+                frame, "Failed To Load any Data..",
+                "Error", JOptionPane.DEFAULT_OPTION
+        );
+
+        if (result == JOptionPane.YES_OPTION) {
+
+            frame.dispose();
 
         }
 
     }
 
     /**
+     * Change look and feel to a more modern look
+     */
+    public void modifyLookAndFeel() {
+
+        try {
+
+            UIManager.setLookAndFeel(
+                    "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        }
+
+        SwingUtilities.updateComponentTreeUI(this.ui);
+    }
+
+    /**
+     * Main method
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
         SwingUtilities.invokeLater(() -> {
+
             Main program = new Main();
+            program.modifyLookAndFeel();
+
         });
+
     }
 }

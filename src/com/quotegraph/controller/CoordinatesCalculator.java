@@ -3,117 +3,125 @@ package com.quotegraph.controller;
 import com.quotegraph.model.DataLoader;
 
 /**
+ * Scales coordinates to the window to allow for resizing of graph
  *
  * @author d.peters
  */
 public class CoordinatesCalculator {
 
-    private final DataLoader daten;
+    /**
+     * Reference to the DataLoader object
+     */
+    private final DataLoader loader;
 
-    public CoordinatesCalculator(DataLoader daten) {
-        this.daten = daten;
+    /**
+     * Default constructor.
+     *
+     * @param loader
+     */
+    public CoordinatesCalculator(DataLoader loader) {
+        this.loader = loader;
     }
 
     /**
-     * Abstände der Grafik zum Rand.
+     * Margins around the graph area
      */
     private final int MARGIN = 40;
 
     /**
-     * Beim Koordinatenberechnen wird y berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate y
      */
-    private final String Y_RECHNEN = "y";
+    private final String CALC_Y = "y";
 
     /**
-     * Beim Koordinatenberechnen wird y1 berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate y1
      */
-    private final String Y1_RECHNEN = "y1";
+    private final String CALC_Y1 = "y1";
 
     /**
-     * Beim Koordinatenberechnen wird x berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate x
      */
-    private final String X_RECHNEN = "x";
+    private final String CALC_X = "x";
 
     /**
-     * Beim Koordinatenberechnen wird y1 berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate x1
      */
-    private final String X1_RECHNEN = "x1";
+    private final String CALC_X1 = "x1";
 
     /**
-     * Einzelne Koordinaten für die Linien holen
+     * Get coordinate.
      *
-     * @param zaehler Stelle in der ArrayList
-     * @param achse
-     * @param koordinatTyp unterscheiden zwischen x, x1, y, und y1
-     * @return Auf Fenster umgewandelte Koordinatenposition zurückgeben
+     * @param index current index in the data list
+     * @param axis
+     * @param coorType cordinate type are x, x1, y, und y1
+     * @return scaled coordinate
      */
-    public double createCoordinate(int zaehler, double achse, String koordinatTyp) {
+    public double createCoordinate(int index, double axis, String coorType) {
 
         double weltwert = 0, maxwert = 0, minwert = 0;
 
-        /**
-         * Unterschiedliche daten Werden geladen in Formel, je nach Koordinat
-         * einer Linie
-         */
-        if (koordinatTyp.equals(Y_RECHNEN) || koordinatTyp.equals(Y1_RECHNEN)) {
-            //Minimaler- und maximaler Ywert aus ArrayList holen
-            minwert = daten.getMinClose();
-            maxwert = daten.getMaxClose();
+        if (coorType.equals(CALC_Y) || coorType.equals(CALC_Y1)) {
 
-            if (koordinatTyp.equals(Y_RECHNEN)) {
-                //Y Startpunkt
-                weltwert = Math.round(daten.getData().get(zaehler - 1).getClose());
+            minwert = loader.getMinClose();
+            maxwert = loader.getMaxClose();
+
+            if (coorType.equals(CALC_Y)) {
+
+                weltwert = Math.round(loader.getData().get(index - 1).getClose());
+
             } else {
-                //Y Endpunkt
-                weltwert = Math.round(daten.getData().get(zaehler).getClose());
+
+                weltwert = Math.round(loader.getData().get(index).getClose());
+
             }
 
-        } else if (koordinatTyp.equals(X_RECHNEN) || koordinatTyp.equals(X1_RECHNEN)) {
-            //Minimaler und maximaler x Wert
-            minwert = daten.getMinTimeStamp();
-            maxwert = daten.getMaxTimeStamp();
+        } else if (coorType.equals(CALC_X) || coorType.equals(CALC_X1)) {
 
-            if (koordinatTyp.equals(X_RECHNEN)) {
-                //X Startpunkt
-                weltwert = daten.getTimeStamps().get(zaehler - 1);
+            minwert = loader.getMinTimeStamp();
+            maxwert = loader.getMaxTimeStamp();
+
+            if (coorType.equals(CALC_X)) {
+
+                weltwert = loader.getTimeStamps().get(index - 1);
+
             } else {
-                //X Endpunkt
-                weltwert = daten.getTimeStamps().get(zaehler);
+
+                weltwert = loader.getTimeStamps().get(index);
+
             }
 
         }
-        return translateToPanel(achse, weltwert, minwert, maxwert, koordinatTyp);
+
+        return translateToPanel(axis, weltwert, minwert, maxwert, coorType);
     }
 
     /**
-     * Fensterkoordinaten ausrechnen
+     * Calculate window coordinates.
      *
      * @param panelDimension
      * @param quote
      * @param maxQuote
      * @param minQuote
-     * @param koorTyp
+     * @param coorType
      * @return
      */
     public double translateToPanel(double panelDimension, double quote,
-            double maxQuote, double minQuote, String koorTyp) {
+            double maxQuote, double minQuote, String coorType) {
 
         double koor;
-
         double ratio = (panelDimension - 2 * MARGIN) / (minQuote - maxQuote);
         double tempResult = (quote - maxQuote) * ratio;
 
-        //Abfrage, da y Achse umgekehrt werden muss.
-        if (koorTyp.equals(Y_RECHNEN) || koorTyp.equals(Y1_RECHNEN)) {
-            //Y-Achse umkehren und Abstand zum Rand einsetzen
+        if (coorType.equals(CALC_Y) || coorType.equals(CALC_Y1)) {
+            
+            // Invert y-axis and add margins
             koor = Math.round(panelDimension - tempResult - MARGIN);
+            
         } else {
-            //Abstand zum Rand einsetzen
+            
+            // Add margins
             koor = Math.round(tempResult + MARGIN);
+            
         }
 
         return koor;

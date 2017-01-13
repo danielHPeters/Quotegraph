@@ -4,29 +4,37 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 /**
- * Diese Klasse fügt die verschiedenen Komponente zusammen und erzeugt so die
- * Benutzeroberfläche.
+ * Create a JFrame container window and add a dropdown.
  *
  * @author d.peters
  */
 public class UserInterface extends JFrame{
     
-    private final DataSelect dropdown;
     /**
-     * Fenster bereits im Konstruktor erzeugen.
-     * @param dropdown
+     * Reference to the data select dropdown
+     */
+    private final DataSelect dropdown;
+    
+    /**
+     * Initializes window look and dropdown
+     * @param dropdown Reference to the select dropdown object
      */
     public UserInterface (DataSelect dropdown){
         this.dropdown = dropdown;
         initAppearance();
     }
     
+    /**
+     * Initialize the looks and title of the window
+     */
     private void initAppearance(){
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
-        this.setTitle("Diagrammfläche");
+        this.setTitle("Graph Panel");
         this.add(dropdown, BorderLayout.NORTH);
         this.setLocationByPlatform(true);
+        
     }
     
     

@@ -20,6 +20,11 @@ import java.util.List;
 public class FileLoader implements DataLoader {
 
     /**
+     *
+     */
+    private final String DEFAULT_DATE_FORMAT = "dd.MM.yyyy";
+
+    /**
      * The file containing quotes to be opened
      */
     private String fileName;
@@ -69,20 +74,21 @@ public class FileLoader implements DataLoader {
     }
 
     /**
-     *
+     * Load the data from the file and add each line to the list
      */
     @Override
     public final void load() {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            double start, hoch, tief, schluss;
+        try (BufferedReader br = new BufferedReader(new FileReader(this.fileName))) {
+
             List<DayQuote> list;
             List<Double> ts;
             String s;
             Date dat;
             SimpleDateFormat format;
+            double start, hoch, tief, schluss;
 
-            format = new SimpleDateFormat("dd.MM.yyyy");
+            format = new SimpleDateFormat(this.DEFAULT_DATE_FORMAT);
             list = new ArrayList<>();
             ts = new ArrayList<>();
 
@@ -97,6 +103,7 @@ public class FileLoader implements DataLoader {
                 schluss = Double.parseDouble(token[4]);
                 list.add(new DayQuote(dat, start, hoch, tief, schluss));
                 ts.add(TimestampGenerator.dateToTimeStamp(dat));
+
             }
 
             this.data = list;
@@ -107,15 +114,20 @@ public class FileLoader implements DataLoader {
             this.maxTimeStamp = Collections.max(ts);
 
         } catch (IOException ex) {
+
             System.out.println("Failed to open file: " + this.fileName);
             this.failed = true;
+
         } catch (ParseException ex) {
+
             System.out.println("Failed to parse date. " + ex);
+
         }
 
     }
 
     /**
+     * Get the fileName
      *
      * @param source
      */
@@ -125,6 +137,7 @@ public class FileLoader implements DataLoader {
     }
 
     /**
+     * Get the data List
      *
      * @return
      */
@@ -134,6 +147,7 @@ public class FileLoader implements DataLoader {
     }
 
     /**
+     * Get the minimum close
      *
      * @return
      */
@@ -143,6 +157,7 @@ public class FileLoader implements DataLoader {
     }
 
     /**
+     * Get the maximum close
      *
      * @return
      */
@@ -152,6 +167,7 @@ public class FileLoader implements DataLoader {
     }
 
     /**
+     * Get the timestamp list
      *
      * @return
      */
@@ -161,6 +177,7 @@ public class FileLoader implements DataLoader {
     }
 
     /**
+     * Get the lowest value timestamp
      *
      * @return
      */
@@ -170,6 +187,7 @@ public class FileLoader implements DataLoader {
     }
 
     /**
+     * Get the highest value timestamp
      *
      * @return
      */
@@ -179,6 +197,7 @@ public class FileLoader implements DataLoader {
     }
 
     /**
+     * Boolean flag for loading or source error
      *
      * @return
      */

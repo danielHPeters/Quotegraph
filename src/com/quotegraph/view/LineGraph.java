@@ -17,51 +17,47 @@ import javax.swing.JPanel;
 public class LineGraph extends JPanel {
 
     /**
-     * Initial height of the graph panel
+     * Height of the graph panel
      */
-    private final int HEIGHT = 600;
+    private final int DEFAULT_HEIGHT = 600;
 
     /**
-     * Initial width of the graph panel
+     * Width of the graph panel
      */
-    private final int WIDTH = 1000;
+    private final int DEFAULT_WIDTH = 1000;
 
     /**
      * Backround color of the graph panel
      */
-    private final Color BACKGROUNDCOLOR = Color.yellow;
+    private final Color BACKGROUND_COLOR = Color.yellow;
 
     /**
      * Margins around the graph
      */
-    private final int SEITENABSTAND = 40;
+    private final int MARGIN = 40;
 
     /**
-     * Beim Koordinatenberechnen wird y berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate y
      */
-    private final String Y_RECHNEN = "y";
+    private final String CALC_Y = "y";
 
     /**
-     * Beim Koordinatenberechnen wird y1 berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate y1
      */
-    private final String Y1_RECHNEN = "y1";
+    private final String CALC_Y1 = "y1";
 
     /**
-     * Beim Koordinatenberechnen wird x berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate x
      */
-    private final String X_RECHNEN = "x";
+    private final String CALC_X = "x";
 
     /**
-     * Beim Koordinatenberechnen wird y1 berechnet wenn der Parameterstring
-     * gleich diesem ist.
+     * Calculate x1
      */
-    private final String X1_RECHNEN = "x1";
+    private final String CALC_X1 = "x1";
 
     /**
-     *
+     * Reference to the DataLoader object
      */
     private final DataLoader loader;
 
@@ -74,27 +70,31 @@ public class LineGraph extends JPanel {
      * Default constructor which initializes the data and appearance of the
      * panel
      *
-     * @param daten
+     * @param loader
      * @param calculator
      */
-    public LineGraph(DataLoader daten, CoordinatesCalculator calculator) {
+    public LineGraph(DataLoader loader, CoordinatesCalculator calculator) {
+
         this.calculator = calculator;
-        this.loader = daten;
+        this.loader = loader;
         initAppearance();
+
     }
 
     /**
      * Initialize the appearance of this panel
      */
     private void initAppearance() {
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setBackground(BACKGROUNDCOLOR);
+
+        this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        this.setBackground(BACKGROUND_COLOR);
+
     }
 
     /**
      * Draw lines on the graph where major world events happened
      *
-     * @param g2 Graphics object
+     * @param g2
      * @param index
      * @param x
      * @param x1
@@ -104,38 +104,38 @@ public class LineGraph extends JPanel {
         switch (loader.getData().get(index).getQuoteDate().toString()) {
 
             case "Mon Jan 03 00:00:00 CET 2000":
-                g2.drawLine((int) x, SEITENABSTAND, (int) x1, getHeight() - SEITENABSTAND);
-                g2.drawString("Dotcom", (int) x, SEITENABSTAND / 2);
+                g2.drawLine((int) x, MARGIN, (int) x1, getHeight() - MARGIN);
+                g2.drawString("Dotcom", (int) x, MARGIN / 2);
                 break;
 
             case "Mon Sep 10 00:00:00 CEST 2001":
-                g2.drawLine((int) x, SEITENABSTAND, (int) x1, getHeight() - SEITENABSTAND);
-                g2.drawString("9/11", (int) x, SEITENABSTAND / 2);
+                g2.drawLine((int) x, MARGIN, (int) x1, getHeight() - MARGIN);
+                g2.drawString("9/11", (int) x, MARGIN / 2);
                 break;
 
             case "Mon Sep 15 00:00:00 CEST 2008":
-                g2.drawLine((int) x, SEITENABSTAND, (int) x1, getHeight() - SEITENABSTAND);
-                g2.drawString("Finanzkrise", (int) x, SEITENABSTAND / 2);
+                g2.drawLine((int) x, MARGIN, (int) x1, getHeight() - MARGIN);
+                g2.drawString("08 Financial Crisis", (int) x, MARGIN / 2);
                 break;
 
             case "Tue Apr 27 00:00:00 CEST 2010":
-                g2.drawLine((int) x, SEITENABSTAND, (int) x1, getHeight() - SEITENABSTAND);
-                g2.drawString("Griechenlandkrise", (int) x, SEITENABSTAND / 4);
+                g2.drawLine((int) x, MARGIN, (int) x1, getHeight() - MARGIN);
+                g2.drawString("Greek Crisis", (int) x, MARGIN / 4);
                 break;
 
             case "Fri Mar 11 00:00:00 CET 2011":
-                g2.drawLine((int) x, SEITENABSTAND, (int) x1, getHeight() - SEITENABSTAND);
-                g2.drawString("Fukushima", (int) x, SEITENABSTAND / 2);
+                g2.drawLine((int) x, MARGIN, (int) x1, getHeight() - MARGIN);
+                g2.drawString("Fukushima", (int) x, MARGIN / 2);
                 break;
 
             case "Mon Aug 01 00:00:00 CEST 2011":
-                g2.drawLine((int) x, SEITENABSTAND, (int) x1, getHeight() - SEITENABSTAND);
-                g2.drawString("Eurokrise", (int) x, SEITENABSTAND);
+                g2.drawLine((int) x, MARGIN, (int) x1, getHeight() - MARGIN);
+                g2.drawString("Eurocrisis", (int) x, MARGIN);
                 break;
 
             case "Fri Jun 12 00:00:00 CEST 2015":
-                g2.drawLine((int) x, SEITENABSTAND, (int) x1, getHeight() - SEITENABSTAND);
-                g2.drawString("Griechenlandkrise 2.0", (int) x, SEITENABSTAND / 2);
+                g2.drawLine((int) x, MARGIN, (int) x1, getHeight() - MARGIN);
+                g2.drawString("Greek Crisis 2.0", (int) x, MARGIN / 2);
                 break;
 
         }
@@ -145,7 +145,7 @@ public class LineGraph extends JPanel {
     /**
      * Draw lines whith quote data
      *
-     * @param g2 Graphics2D Zeichenobjekt
+     * @param g2 graphics context
      */
     public void drawGraphLine(Graphics2D g2) {
 
@@ -158,10 +158,10 @@ public class LineGraph extends JPanel {
 
         for (int i = 1; i < loader.getData().size(); i++) {
 
-            y = calculator.createCoordinate(i, panelY, Y_RECHNEN);
-            y1 = calculator.createCoordinate(i, panelY, Y1_RECHNEN);
-            x = calculator.createCoordinate(i, panelX, X_RECHNEN);
-            x1 = calculator.createCoordinate(i, panelX, X1_RECHNEN);
+            y = calculator.createCoordinate(i, panelY, CALC_Y);
+            y1 = calculator.createCoordinate(i, panelY, CALC_Y1);
+            x = calculator.createCoordinate(i, panelX, CALC_X);
+            x1 = calculator.createCoordinate(i, panelX, CALC_X1);
 
             g2.drawLine((int) x, (int) y, (int) x1, (int) y1);
 
@@ -172,72 +172,75 @@ public class LineGraph extends JPanel {
     }
 
     /**
-     * Draws the x-axis with time data
+     * Draws the x-axis with time data. TODO: is not at all working as intended
+     * and needs to be generalized
      *
-     * @param g2 Graphics2D Zeichenobjekt
+     * @param g2 graphics context
      */
     public void drawXAxis(Graphics2D g2) {
-        //X-Achse zeichnen
-        g2.drawLine(SEITENABSTAND, getHeight() - SEITENABSTAND, getWidth() - SEITENABSTAND, getHeight() - SEITENABSTAND);
-        //Jahr zut Beschriftung der Achse.
-        int jahr = 2000;
-        //Abstandmarkierungen auf X-Achse
-        for (int i = 10; i < (17 * 12) + 11; i++) {
-            int xabst = (i - 11) * (getWidth() - SEITENABSTAND * 2) / ((16 * 12) + 3) + SEITENABSTAND;
-            int xabst1 = xabst;
-            int yabst = getHeight() - SEITENABSTAND;
-            int yabst1 = yabst - 5;
 
-            /**
-             * Da die Daten nicht in jeder Datei beim Januar anfangen, geht die
-             * For-Schleife durch monate hindurch und Gibt bei jedem Jahr eine
-             * Markierung mit der Jahreszahl aus. Bemerkung: Ist nicht final und
-             * muss noch überarbeitet werden.
-             */
+        g2.drawLine(MARGIN, getHeight() - MARGIN, getWidth() - MARGIN, getHeight() - MARGIN);
+
+        int year = 2000;
+
+        for (int i = 10; i < (17 * 12) + 11; i++) {
+
+            int xDistance = (i - 11) * (getWidth() - MARGIN * 2) / ((16 * 12) + 3) + MARGIN;
+            int xDistance1 = xDistance;
+            int yDistance = getHeight() - MARGIN;
+            int yDistance1 = yDistance - 5;
+
             if (i % 12 == 0) {
-                g2.drawString("" + jahr, xabst, yabst - 6);
-                g2.drawLine(xabst, yabst, xabst1, yabst1);
-                jahr += 1;
+
+                g2.drawString("" + year, xDistance, yDistance - 6);
+                g2.drawLine(xDistance, yDistance, xDistance1, yDistance1);
+                year += 1;
+
             }
 
         }
     }
 
     /**
-     * Draws the y-axis
+     * Draws the y-axis. TODO: is not at all working as intended and needs to be
+     * generalized
      *
-     * @param g2 Graphics2D graphics object
+     * @param g2 graphics context
      */
     public void drawYAxis(Graphics2D g2) {
-        //Y-Achse zeichnen
-        g2.drawLine(SEITENABSTAND, getHeight() - SEITENABSTAND, SEITENABSTAND, SEITENABSTAND);
-        int beschriftung = 0;
-        //Abstandmarkierungen auf Y-Achse
+
+        int marker = 0;
+
+        g2.drawLine(MARGIN, getHeight() - MARGIN, MARGIN, MARGIN);
+
         for (int i = 0; i < 12; i++) {
-            beschriftung += 1000;
-            int xabst = SEITENABSTAND;
-            int xabst1 = 5 + SEITENABSTAND;
-            int yabst = getHeight() - (((i + 1) * (getHeight() - SEITENABSTAND * 2)) / 12 + SEITENABSTAND);
-            int yabst1 = yabst;
-            g2.drawLine(xabst, yabst, xabst1, yabst1);
-            g2.drawString("" + beschriftung, xabst + 6, yabst);
+
+            int xDistance = MARGIN;
+            int xDistance1 = 5 + MARGIN;
+            int yDistance = getHeight() - (((i + 1) * (getHeight() - MARGIN * 2)) / 12 + MARGIN);
+            int yDistance1 = yDistance;
+
+            marker += 1000;
+            g2.drawLine(xDistance, yDistance, xDistance1, yDistance1);
+            g2.drawString("" + marker, xDistance + 6, yDistance);
+
         }
+
     }
 
     /**
      * Paint method override. Excecutes all the painting methods
      *
-     * @param g Graphics graphics object
+     * @param g graphics context
      */
     @Override
     public void paintComponent(Graphics g) {
 
         Graphics2D g2 = (Graphics2D) g;
+
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         super.paintComponent(g2);
-
         drawGraphLine(g2);
-
         g2.setColor(Color.blue);
         drawXAxis(g2);
         drawYAxis(g2);

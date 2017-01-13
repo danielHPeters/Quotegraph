@@ -9,9 +9,10 @@ import java.util.Date;
 public class TimestampGenerator {
 
     /**
+     * Generates a timestamp from a Date object
      *
-     * @param date
-     * @return Gibt das Datum als long in Form von einem Unix Timestamp zurück.
+     * @param date the submitted date object
+     * @return long containing the timestamp of the submitted date
      */
     public static double dateToTimeStamp(Date date) {
 

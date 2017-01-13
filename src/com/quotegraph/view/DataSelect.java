@@ -1,6 +1,5 @@
 package com.quotegraph.view;
 
-import com.quotegraph.model.DataLoader;
 import com.quotegraph.controller.DropDownAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -16,25 +15,20 @@ public class DataSelect extends JComboBox<String> {
     private final DropDownAction action;
 
     /**
-     * Mit diesem Objekt können die Daten geholt werden und zugehörige
-     * Funktionen ausgeführt werden
-     */
-    private final DataLoader laden;
-
-    /**
-     * Konstruktor, der bei Aufruf den Dropdwon erzeugt mit den angegebenen
-     * Werten
+     * Default constructor. Initializes the reference to the actions for this
+     * dropdown
      *
-     * @param laden
      * @param action
      */
-    public DataSelect(DataLoader laden, DropDownAction action) {
-        this.laden = laden;
+    public DataSelect(DropDownAction action) {
+
+        String[] fileNames = {"vw", "blackrock", "goldman", "cac40"};
+
         this.action = action;
-        String[] dateinamen = {"vw", "blackrock", "goldman", "cac40"};
-        setModel(new DefaultComboBoxModel<>(dateinamen));
+        setModel(new DefaultComboBoxModel<>(fileNames));
         setSelectedIndex(0);
-        addActionListener(action);
+        addActionListener(this.action);
+
     }
 
 }

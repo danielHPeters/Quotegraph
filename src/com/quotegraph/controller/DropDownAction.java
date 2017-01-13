@@ -7,26 +7,28 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 /**
- * Dropdown to select data from another company/currency
+ * ActionListener, that waits for the user to select an item from the menu
+ * dropdown, sets the selected source and tells the DataLoader to load the
+ * selected data.
  *
  * @author d.peters
  */
 public class DropDownAction implements ActionListener {
 
     /**
-     *
+     * Reference to the DataLoader object, that loads the data
      */
     private final DataLoader loader;
 
     /**
-     *
+     * Reference to the JPanel object where the drawing is done
      */
-    private JPanel panel;
+    private final JPanel panel;
 
     /**
      *
-     * @param loader
-     * @param panel
+     * @param loader reference to DataLoader object
+     * @param panel reference to JPanel object
      */
     public DropDownAction(DataLoader loader, JPanel panel) {
         this.loader = loader;
@@ -34,19 +36,20 @@ public class DropDownAction implements ActionListener {
     }
 
     /**
-     * Beim anwählen einer auswahl wird der dateiname vom Objekt Daten gesetzt.
-     * Die angegebene Datei sollte dann geladen werden Bemerkung: Funktioniert
-     * noch nicht
+     * Changes file or table to the one selected by user in the menu
      *
-     * @param ae Der action Event
+     * @param ae the triggering event
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
+
         JComboBox cb = (JComboBox) ae.getSource();
         String location = (String) cb.getSelectedItem();
+
         loader.setSource(location);
         loader.load();
         panel.repaint();
+
     }
 
 }

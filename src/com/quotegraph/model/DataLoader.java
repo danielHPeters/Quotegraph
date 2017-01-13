@@ -27,16 +27,40 @@ public interface DataLoader {
      */
     public List<DayQuote> getData();
     
+    /**
+     * 
+     * @return 
+     */
     public double getMinClose();
     
+    /**
+     * 
+     * @return 
+     */
     public double getMaxClose();
     
+    /**
+     * 
+     * @return 
+     */
     public List<Double> getTimeStamps();
     
+    /**
+     * 
+     * @return 
+     */
     public double getMinTimeStamp();
     
+    /**
+     * 
+     * @return 
+     */
     public double getMaxTimeStamp();
     
+    /**
+     * 
+     * @return 
+     */
     public boolean hasFailed();
 
 }

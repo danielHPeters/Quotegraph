@@ -10,8 +10,6 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -49,18 +47,39 @@ public class MysqlLoader implements DataLoader {
      */
     private String table;
 
+    /**
+     * 
+     */
     private List<DayQuote> data;
 
+    /**
+     * 
+     */
     private List<Double> timeStamps;
 
+    /**
+     * 
+     */
     private double minClose;
 
+    /**
+     * 
+     */
     private double maxClose;
 
+    /**
+     * 
+     */
     private double minTimeStamp;
 
+    /**
+     * 
+     */
     private double maxTimeStamp;
 
+    /**
+     * 
+     */
     private boolean failed;
 
     /**

@@ -9,33 +9,61 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 /**
- * Diese Klasse stellt eingelesene Daten in einem Säulendiagramm dar.
+ * Display data as a colum graph.
+ * TODO: Scaling needs to be improved.
+ * 
+ * Formula for for scaling coordinates:
+ * x = (actualValX - MinActualValX) * windowWidth / (MaxActualValX - MinActualValX); 
+ * y = (actualValY - MinActualValY) * windowHeight / (MaxActualValY - MinActualValY);
  *
  * @author d.peters
  */
 public class ColumnGraph extends JPanel {
 
     /**
-     * Initialhöhe und Breite des Zeichenoberfläche definieren
+     * Width of the JPanel
      */
-    private final int HOEHE = 600;
-    private final int BREITE = 1000;
-    //Hintergrundfarbe der Zeichenoberfläche
-    private final Color HINTERGRUNDFARBE = Color.yellow;
-
-    //Abstände von LinienGrafik zum Rand hier definieren
-    private final int SEITENABSTAND = 40;
+    private final int DEFAULT_WIDTH = 1000;
 
     /**
-     * Strings um zu Prüfen, welcher Koordinat gerade berechnet werden muss Bem
-     * übergeben der Werte zu der nächsten Funktion
+     * Height of the JPanel
      */
-    private final String Y_RECHNEN = "y";
-    private final String Y1_RECHNEN = "y1";
-    private final String X_RECHNEN = "x";
-    private final String X1_RECHNEN = "x1";
+    private final int DEFAULT_HEIGHT = 600;
 
-    public DataLoader daten;
+    /**
+     * Background color of the JPanel
+     */
+    private final Color BACKGROUND_COLOR = Color.yellow;
+
+    /**
+     * Defines the Margin around the graph
+     */
+    private final int MARGIN = 40;
+
+    /**
+     * Test for calculating y value
+     */
+    private final String CALC_Y = "y";
+
+    /**
+     * Test for calculating y1 value
+     */
+    private final String CALC_Y1 = "y1";
+
+    /**
+     * Test for calculating x value
+     */
+    private final String CALC_X = "x";
+
+    /**
+     * Test for calculating x1 value
+     */
+    private final String CALC_X1 = "x1";
+
+    /**
+     * Reference to the DataLoader object.
+     */
+    private final DataLoader loader;
 
     /**
      * Setzt das Aussehen und Dimension der Zeichenoberfläche bei Aufruf.
@@ -43,16 +71,22 @@ public class ColumnGraph extends JPanel {
      * @param daten
      */
     public ColumnGraph(DataLoader daten) {
-        this.daten = daten;
+
+        this.loader = daten;
         initAppearance();
+
     }
 
+    /**
+     *
+     */
     private void initAppearance() {
-        this.setPreferredSize(new Dimension(BREITE, HOEHE));
-        this.setBackground(HINTERGRUNDFARBE);
+
+        this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        this.setBackground(BACKGROUND_COLOR);
+
     }
 
-    //Weltwerte runden, damit es GanzzahlKoordinaten gibt
     /**
      * Einzelne Koordinaten für die Linien holen
      *
@@ -68,32 +102,32 @@ public class ColumnGraph extends JPanel {
          * Unterschiedliche daten Werden geladen in Formel, je nach Koordinat
          * einer Linie
          */
-        if (koordinatTyp.equals(Y_RECHNEN) || koordinatTyp.equals(Y1_RECHNEN)) {
+        if (koordinatTyp.equals(CALC_Y) || koordinatTyp.equals(CALC_Y1)) {
             //Minimaler- und maximaler Ywert aus ArrayList holen
-            minwert = daten.getMinClose();
-            maxwert = daten.getMaxClose();
+            minwert = loader.getMinClose();
+            maxwert = loader.getMaxClose();
             //Fensterhoehe Holen
             achse = getHeight();
 
-            if (koordinatTyp.equals(Y_RECHNEN)) {
+            if (koordinatTyp.equals(CALC_Y)) {
                 //Y Startpunkt
-                weltwert = daten.getData().get(zaehler - 1).getClose();
+                weltwert = loader.getData().get(zaehler - 1).getClose();
             } else {
                 //Y Endpunkt
-                weltwert = daten.getData().get(zaehler).getClose();
+                weltwert = loader.getData().get(zaehler).getClose();
             }
-        } else if (koordinatTyp.equals(X_RECHNEN) || koordinatTyp.equals(X1_RECHNEN)) {
+        } else if (koordinatTyp.equals(CALC_X) || koordinatTyp.equals(CALC_X1)) {
             //Minimaler und maximaler x Wert
-            minwert = daten.getMinTimeStamp();
-            maxwert = daten.getMaxTimeStamp();
+            minwert = loader.getMinTimeStamp();
+            maxwert = loader.getMaxTimeStamp();
             //Aktuelle Fensterbreite holen
             achse = getWidth();
-            if (koordinatTyp.equals(X_RECHNEN)) {
+            if (koordinatTyp.equals(CALC_X)) {
                 //X Startpunkt
-                weltwert = daten.getTimeStamps().get(zaehler - 1);
+                weltwert = loader.getTimeStamps().get(zaehler - 1);
             } else {
                 //X Endpunkt
-                weltwert = daten.getTimeStamps().get(zaehler);
+                weltwert = loader.getTimeStamps().get(zaehler);
             }
         }
 
@@ -101,22 +135,16 @@ public class ColumnGraph extends JPanel {
     }
 
     /**
-     * Formel für Koordinatenumwandlung auf Fenster: x = (weltwertx -
-     * min-weltminwertx) * Fensterbreite / (max-weltwertx - min-weltwertx); y =
-     * (weltwerty - min-weltwerty) * Fensterhoehe / (max-weltwerty -
-     * min-weltwerty);
-     */
-    /**
      * Fensterkoordinaten ausrechnen
      *
-     * @param fensterDimension
-     * @param wert
-     * @param minWert
-     * @param maxWert
-     * @param koorTyp
+     * @param windowDimension
+     * @param value
+     * @param minVal
+     * @param maxVal
+     * @param coorType
      * @return
      */
-    private double koordinatenBerechnen(double fensterDimension, double wert, double minWert, double maxWert, String koorTyp) {
+    private double koordinatenBerechnen(double windowDimension, double value, double minVal, double maxVal, String coorType) {
 
         double koor;
 
@@ -124,75 +152,110 @@ public class ColumnGraph extends JPanel {
          * Verhältnis von Fensterwert zu Originalwer Abstände werden zu allen
          * Seiten mit einberechnet
          */
-        double verhaeltnis = (fensterDimension - 2 * SEITENABSTAND) / (maxWert - minWert);
+        double ratio = (windowDimension - 2 * MARGIN) / (maxVal - minVal);
+
         /**
          * Da die Y Koordinaten im JPanel umgekehrt werden müssen, wird das
          * Resultat der Formel zwischengespeichert
          */
-        double zwischenresultat = (wert - minWert) * verhaeltnis;
+        double temp = (value - minVal) * ratio;
 
-        //Abfrage, da y Achse umgekehrt werden muss.
-        if (koorTyp.equals(Y_RECHNEN) || koorTyp.equals(Y1_RECHNEN)) {
-            //Y-Achse umkehren und Abstand zum Rand einsetzen
-            koor = Math.round(fensterDimension - zwischenresultat - 2 * SEITENABSTAND);
+        // Abfrage, da y Achse umgekehrt werden muss.
+        if (coorType.equals(CALC_Y) || coorType.equals(CALC_Y1)) {
+
+            // Y-Achse umkehren und Abstand zum Rand einsetzen
+            koor = Math.round(windowDimension - temp - 2 * MARGIN);
+
         } else {
-            //Abstand zum Rand einsetzen
-            koor = Math.round(zwischenresultat + SEITENABSTAND);
+
+            // Add Margins
+            koor = Math.round(temp + MARGIN);
+
         }
+
         return koor;
     }
 
     /**
-     * Zeichnet die Grafik.
+     *
+     * @param g2
+     */
+    public void paintXAxis(Graphics2D g2) {
+
+        g2.setColor(Color.blue);
+        g2.drawLine(MARGIN, getHeight() - MARGIN, getWidth() - MARGIN, getHeight() - MARGIN);
+
+        for (int i = 0; i < 20 - 1; i++) {
+
+            int xabst = (i + 1) * (getWidth() - MARGIN * 2) / (20 - 1) + MARGIN;
+            int xabst1 = xabst;
+            int yabst = getHeight() - MARGIN;
+            int yabst1 = yabst - 5;
+            g2.drawLine(xabst, yabst, xabst1, yabst1);
+
+        }
+
+    }
+
+    /**
+     *
+     * @param g2
+     */
+    public void paintYAxis(Graphics2D g2) {
+
+        g2.setColor(Color.blue);
+        g2.drawLine(MARGIN, getHeight() - MARGIN, MARGIN, MARGIN);
+
+        for (int i = 0; i < 10; i++) {
+
+            int xabst = MARGIN;
+            int xabst1 = 5 + MARGIN;
+            int yabst = getHeight() - (((i + 1) * (getHeight() - MARGIN * 2)) / 10 + MARGIN);
+            int yabst1 = yabst;
+            g2.drawLine(xabst, yabst, xabst1, yabst1);
+
+        }
+
+    }
+
+    /**
+     *
+     * @param g2
+     */
+    public void drawColums(Graphics2D g2) {
+
+        int windowHeight, columnWidth = 1;
+        double columnHeight, xRatio, xPos;
+
+        xRatio = Math.round((getWidth() - 2 * MARGIN) / 100 - 1);
+        g2.setColor(Color.red);
+
+        for (int counter = 1; counter < 100; counter++) {
+
+            xPos = (counter - 1) * xRatio;
+            columnHeight = koordinaten(counter, CALC_Y1);
+            windowHeight = getHeight() - MARGIN;
+            g2.drawRect((int) xPos + MARGIN, windowHeight - (int) columnHeight, (int) (columnWidth * xRatio), (int) columnHeight);
+
+        }
+
+    }
+
+    /**
+     * Drawing done here.
      *
      * @param g
      */
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+
         Graphics2D g2 = (Graphics2D) g;
+
+        super.paintComponent(g2);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Color.red);
+        drawColums(g2);
+        paintXAxis(g2);
+        paintYAxis(g2);
 
-        double saeulenhoehe;
-        double xverhaeltnis = Math.round((getWidth() - 2 * SEITENABSTAND) / 100 - 1);
-        double xpos;
-        int saeulenbreite = 1;
-        // Zeichnen
-        for (int zaehler = 1; zaehler < 100; zaehler++) {
-            xpos = (zaehler - 1) * xverhaeltnis;
-            saeulenhoehe = koordinaten(zaehler, Y1_RECHNEN);
-
-            int fensterhoehe = getHeight() - SEITENABSTAND;
-
-            g2.drawRect((int) xpos + SEITENABSTAND, fensterhoehe - (int) saeulenhoehe, (int) (saeulenbreite * xverhaeltnis), (int) saeulenhoehe);
-
-        }
-
-        g2.setColor(Color.blue);
-
-        //Y-Achse zeichnen
-        g2.drawLine(SEITENABSTAND, getHeight() - SEITENABSTAND, SEITENABSTAND, SEITENABSTAND);
-
-        //X-Achse zeichnen
-        g2.drawLine(SEITENABSTAND, getHeight() - SEITENABSTAND, getWidth() - SEITENABSTAND, getHeight() - SEITENABSTAND);
-
-        //Abstandmarkierungen auf Y-Achse
-        for (int i = 0; i < 10; i++) {
-            int xabst = SEITENABSTAND;
-            int xabst1 = 5 + SEITENABSTAND;
-            int yabst = getHeight() - (((i + 1) * (getHeight() - SEITENABSTAND * 2)) / 10 + SEITENABSTAND);
-            int yabst1 = yabst;
-            g2.drawLine(xabst, yabst, xabst1, yabst1);
-        }
-
-        //Abstandmarkierungen auf X-Achse
-        for (int i = 0; i < 20 - 1; i++) {
-            int xabst = (i + 1) * (getWidth() - SEITENABSTAND * 2) / (20 - 1) + SEITENABSTAND;
-            int xabst1 = xabst;
-            int yabst = getHeight() - SEITENABSTAND;
-            int yabst1 = yabst - 5;
-            g2.drawLine(xabst, yabst, xabst1, yabst1);
-        }
     }
 }

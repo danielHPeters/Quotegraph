@@ -10,24 +10,24 @@ import javax.swing.JPanel;
 /**
  * Generates a Candlestick Graph
  *
- * @author d.peters@rafisa.ch
+ * @author d.peters
  */
 public class CandleStickGraph extends JPanel {
 
     /**
      * Default width of the graph
      */
-    private final int WIDTH = 1000;
+    private final int DEFAULT_WIDTH = 1000;
 
     /**
      * Default height of the graph
      */
-    private final int HEIGHT = 600;
+    private final int DEFAULT_HEIGHT = 600;
 
     /**
      * Background color of the Graph
      */
-    private final Color BACKGROUNDCOLOR = Color.black;
+    private final Color BACKGROUND_COLOR = Color.black;
 
     /**
      * Reference to the loader loader object. DataLoader is an interface
@@ -52,8 +52,8 @@ public class CandleStickGraph extends JPanel {
      */
     private void initAppearance() {
 
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setBackground(BACKGROUNDCOLOR);
+        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        setBackground(BACKGROUND_COLOR);
 
     }
 
@@ -166,19 +166,14 @@ public class CandleStickGraph extends JPanel {
     }
 
     /**
-     * Main drawing function draws all items on the JPanel area
+     * Draw multiple candlesticks in loop
      *
-     * @param g Graphics Objekt zum Zeichnen
+     * @param g2 graphics context
      */
-    @Override
-    public void paintComponent(Graphics g) {
-
-        Graphics2D g2 = (Graphics2D) g;
+    public void candleDrawingLoop(Graphics2D g2) {
 
         int xMargin;
         double open, close, high, low;
-
-        super.paintComponent(g2);
 
         xMargin = 0;
 
@@ -193,5 +188,21 @@ public class CandleStickGraph extends JPanel {
             drawCandle(g2, open, close, high, low, xMargin);
 
         }
+
+    }
+
+    /**
+     * Main drawing function draws all items on the JPanel area
+     *
+     * @param g Graphics Objekt zum Zeichnen
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        super.paintComponent(g2);
+        candleDrawingLoop(g2);
+
     }
 }
