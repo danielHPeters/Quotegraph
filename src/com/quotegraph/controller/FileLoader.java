@@ -1,6 +1,5 @@
 package com.quotegraph.controller;
 
-import com.quotegraph.model.DataLoader;
 import com.quotegraph.model.DayQuote;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,59 +16,15 @@ import java.util.List;
  *
  * @author d.peters
  */
-public class FileLoader implements DataLoader {
-
-    /**
-     *
-     */
-    private final String DEFAULT_DATE_FORMAT = "dd.MM.yyyy";
-
-    /**
-     * The file containing quotes to be opened
-     */
-    private String fileName;
-
-    /**
-     *
-     */
-    private List<DayQuote> data;
-
-    /**
-     *
-     */
-    private List<Double> timeStamps;
-
-    /**
-     *
-     */
-    private double minClose;
-
-    /**
-     *
-     */
-    private double maxClose;
-
-    /**
-     *
-     */
-    private double minTimeStamp;
-
-    /**
-     *
-     */
-    private double maxTimeStamp;
-
-    /**
-     *
-     */
-    private boolean failed;
+public class FileLoader extends AbstractDataLoader {
 
     /**
      * Default constructor. Sets the fileName to default
+     * @param source
      */
-    public FileLoader() {
+    public FileLoader(String source) {
+        super(source);
         this.failed = false;
-        this.fileName = "blackrock.csv";
         this.load();
     }
 
@@ -79,7 +34,7 @@ public class FileLoader implements DataLoader {
     @Override
     public final void load() {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(this.fileName))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(this.source + ".csv"))) {
 
             List<DayQuote> list;
             List<Double> ts;
@@ -115,7 +70,7 @@ public class FileLoader implements DataLoader {
 
         } catch (IOException ex) {
 
-            System.out.println("Failed to open file: " + this.fileName);
+            System.out.println("Failed to open file: " + this.source + ".csv");
             this.failed = true;
 
         } catch (ParseException ex) {
@@ -124,86 +79,6 @@ public class FileLoader implements DataLoader {
 
         }
 
-    }
-
-    /**
-     * Get the fileName
-     *
-     * @param source
-     */
-    @Override
-    public void setSource(String source) {
-        this.fileName = source + ".csv";
-    }
-
-    /**
-     * Get the data List
-     *
-     * @return
-     */
-    @Override
-    public List<DayQuote> getData() {
-        return this.data;
-    }
-
-    /**
-     * Get the minimum close
-     *
-     * @return
-     */
-    @Override
-    public double getMinClose() {
-        return this.minClose;
-    }
-
-    /**
-     * Get the maximum close
-     *
-     * @return
-     */
-    @Override
-    public double getMaxClose() {
-        return this.maxClose;
-    }
-
-    /**
-     * Get the timestamp list
-     *
-     * @return
-     */
-    @Override
-    public List<Double> getTimeStamps() {
-        return this.timeStamps;
-    }
-
-    /**
-     * Get the lowest value timestamp
-     *
-     * @return
-     */
-    @Override
-    public double getMinTimeStamp() {
-        return this.minTimeStamp;
-    }
-
-    /**
-     * Get the highest value timestamp
-     *
-     * @return
-     */
-    @Override
-    public double getMaxTimeStamp() {
-        return this.maxTimeStamp;
-    }
-
-    /**
-     * Boolean flag for loading or source error
-     *
-     * @return
-     */
-    @Override
-    public boolean hasFailed() {
-        return this.failed;
     }
 
 }

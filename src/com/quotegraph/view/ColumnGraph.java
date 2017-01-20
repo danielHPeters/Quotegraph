@@ -9,12 +9,11 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 /**
- * Display data as a colum graph.
- * TODO: Scaling needs to be improved.
- * 
- * Formula for for scaling coordinates:
- * x = (actualValX - MinActualValX) * windowWidth / (MaxActualValX - MinActualValX); 
- * y = (actualValY - MinActualValY) * windowHeight / (MaxActualValY - MinActualValY);
+ * Display data as a colum graph. TODO: Scaling needs to be improved.
+ *
+ * Formula for for scaling coordinates: x = (actualValX - MinActualValX) *
+ * windowWidth / (MaxActualValX - MinActualValX); y = (actualValY -
+ * MinActualValY) * windowHeight / (MaxActualValY - MinActualValY);
  *
  * @author d.peters
  */
@@ -90,11 +89,11 @@ public class ColumnGraph extends JPanel {
     /**
      * Einzelne Koordinaten für die Linien holen
      *
-     * @param zaehler Stelle in der ArrayList
-     * @param koordinatTyp unterscheiden zwischen x, x1, y, und y1
+     * @param index Stelle in der ArrayList
+     * @param coorType unterscheiden zwischen x, x1, y, und y1
      * @return Auf Fenster umgewandelte Koordinatenposition zurückgeben
      */
-    private double koordinaten(int zaehler, String koordinatTyp) {
+    private double koordinaten(int index, String coorType) {
 
         double weltwert = 0, maxwert = 0, minwert = 0, achse = 0;
 
@@ -102,36 +101,38 @@ public class ColumnGraph extends JPanel {
          * Unterschiedliche daten Werden geladen in Formel, je nach Koordinat
          * einer Linie
          */
-        if (koordinatTyp.equals(CALC_Y) || koordinatTyp.equals(CALC_Y1)) {
+        if (coorType.equals(CALC_Y) || coorType.equals(CALC_Y1)) {
             //Minimaler- und maximaler Ywert aus ArrayList holen
             minwert = loader.getMinClose();
             maxwert = loader.getMaxClose();
             //Fensterhoehe Holen
             achse = getHeight();
 
-            if (koordinatTyp.equals(CALC_Y)) {
-                //Y Startpunkt
-                weltwert = loader.getData().get(zaehler - 1).getClose();
+            if (coorType.equals(CALC_Y)) {
+
+                weltwert = loader.getData().get(index - 1).getClose();
+
             } else {
-                //Y Endpunkt
-                weltwert = loader.getData().get(zaehler).getClose();
+
+                weltwert = loader.getData().get(index).getClose();
+
             }
-        } else if (koordinatTyp.equals(CALC_X) || koordinatTyp.equals(CALC_X1)) {
-            //Minimaler und maximaler x Wert
+        } else if (coorType.equals(CALC_X) || coorType.equals(CALC_X1)) {
+
             minwert = loader.getMinTimeStamp();
             maxwert = loader.getMaxTimeStamp();
-            //Aktuelle Fensterbreite holen
+
             achse = getWidth();
-            if (koordinatTyp.equals(CALC_X)) {
+            if (coorType.equals(CALC_X)) {
                 //X Startpunkt
-                weltwert = loader.getTimeStamps().get(zaehler - 1);
+                weltwert = loader.getTimeStamps().get(index - 1);
             } else {
                 //X Endpunkt
-                weltwert = loader.getTimeStamps().get(zaehler);
+                weltwert = loader.getTimeStamps().get(index);
             }
         }
 
-        return koordinatenBerechnen(achse, weltwert, minwert, maxwert, koordinatTyp);
+        return koordinatenBerechnen(achse, weltwert, minwert, maxwert, coorType);
     }
 
     /**

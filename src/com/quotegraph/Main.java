@@ -90,13 +90,13 @@ public class Main {
      */
     private void initData() {
 
-        this.loader = new MysqlLoader("localhost", "root", "", "boersendaten");
+        this.loader = new MysqlLoader("localhost", "root", "", "boersendaten", "blackrock");
 
         if (this.loader.hasFailed()) {
 
             System.out.println("Trying to use files as fallback.");
 
-            this.loader = new FileLoader();
+            this.loader = new FileLoader("blackrock");
 
             if (this.loader.hasFailed()) {
 
