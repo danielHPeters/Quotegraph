@@ -24,6 +24,8 @@ import javax.swing.*;
  * @version 13.01.2017
  */
 public class Main {
+    
+    private final String DEFAULT_SOURCE = "vw";
 
     /**
      * JPanel for drawing graphs. There are currently 3 types
@@ -83,13 +85,15 @@ public class Main {
      */
     private void initData() {
 
-        this.loader = new MysqlLoader("localhost", "root", "", "boersendaten", "blackrock");
+        this.loader = new MysqlLoader(
+                "localhost", "root", "", "boersendaten", this.DEFAULT_SOURCE
+        );
 
         if (this.loader.hasFailed()) {
 
             System.out.println("Trying to use files as fallback.");
 
-            this.loader = new FileLoader("blackrock");
+            this.loader = new FileLoader(this.DEFAULT_SOURCE);
 
             if (this.loader.hasFailed()) {
 
