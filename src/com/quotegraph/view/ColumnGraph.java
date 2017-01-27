@@ -1,6 +1,8 @@
 package com.quotegraph.view;
 
+import com.quotegraph.controller.CoordinatesCalculatorColumns;
 import com.quotegraph.model.DataLoader;
+import com.quotegraph.model.ECoordinates;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -38,40 +40,20 @@ public class ColumnGraph extends JPanel {
      * Defines the Margin around the graph
      */
     private final int MARGIN = 40;
-
+    
     /**
-     * Test for calculating y value
+     *
      */
-    private final String CALC_Y = "y";
-
-    /**
-     * Test for calculating y1 value
-     */
-    private final String CALC_Y1 = "y1";
-
-    /**
-     * Test for calculating x value
-     */
-    private final String CALC_X = "x";
-
-    /**
-     * Test for calculating x1 value
-     */
-    private final String CALC_X1 = "x1";
-
-    /**
-     * Reference to the DataLoader object.
-     */
-    private final DataLoader loader;
+    private final CoordinatesCalculatorColumns calculator;
 
     /**
      * Setzt das Aussehen und Dimension der Zeichenoberfläche bei Aufruf.
      *
-     * @param daten
+     * @param loader
      */
-    public ColumnGraph(DataLoader daten) {
+    public ColumnGraph(DataLoader loader) {
 
-        this.loader = daten;
+        this.calculator = new CoordinatesCalculatorColumns(loader);
         initAppearance();
 
     }
@@ -84,97 +66,6 @@ public class ColumnGraph extends JPanel {
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         this.setBackground(BACKGROUND_COLOR);
 
-    }
-
-    /**
-     * Einzelne Koordinaten für die Linien holen
-     *
-     * @param index Stelle in der ArrayList
-     * @param coorType unterscheiden zwischen x, x1, y, und y1
-     * @return Auf Fenster umgewandelte Koordinatenposition zurückgeben
-     */
-    private double koordinaten(int index, String coorType) {
-
-        double weltwert = 0, maxwert = 0, minwert = 0, achse = 0;
-
-        /**
-         * Unterschiedliche daten Werden geladen in Formel, je nach Koordinat
-         * einer Linie
-         */
-        if (coorType.equals(CALC_Y) || coorType.equals(CALC_Y1)) {
-            //Minimaler- und maximaler Ywert aus ArrayList holen
-            minwert = loader.getMinClose();
-            maxwert = loader.getMaxClose();
-            //Fensterhoehe Holen
-            achse = getHeight();
-
-            if (coorType.equals(CALC_Y)) {
-
-                weltwert = loader.getData().get(index - 1).getClose();
-
-            } else {
-
-                weltwert = loader.getData().get(index).getClose();
-
-            }
-        } else if (coorType.equals(CALC_X) || coorType.equals(CALC_X1)) {
-
-            minwert = loader.getMinTimeStamp();
-            maxwert = loader.getMaxTimeStamp();
-
-            achse = getWidth();
-            if (coorType.equals(CALC_X)) {
-                //X Startpunkt
-                weltwert = loader.getTimeStamps().get(index - 1);
-            } else {
-                //X Endpunkt
-                weltwert = loader.getTimeStamps().get(index);
-            }
-        }
-
-        return koordinatenBerechnen(achse, weltwert, minwert, maxwert, coorType);
-    }
-
-    /**
-     * Fensterkoordinaten ausrechnen
-     *
-     * @param windowDimension
-     * @param value
-     * @param minVal
-     * @param maxVal
-     * @param coorType
-     * @return
-     */
-    private double koordinatenBerechnen(double windowDimension, double value, double minVal, double maxVal, String coorType) {
-
-        double koor;
-
-        /**
-         * Verhältnis von Fensterwert zu Originalwer Abstände werden zu allen
-         * Seiten mit einberechnet
-         */
-        double ratio = (windowDimension - 2 * MARGIN) / (maxVal - minVal);
-
-        /**
-         * Da die Y Koordinaten im JPanel umgekehrt werden müssen, wird das
-         * Resultat der Formel zwischengespeichert
-         */
-        double temp = (value - minVal) * ratio;
-
-        // Abfrage, da y Achse umgekehrt werden muss.
-        if (coorType.equals(CALC_Y) || coorType.equals(CALC_Y1)) {
-
-            // Y-Achse umkehren und Abstand zum Rand einsetzen
-            koor = Math.round(windowDimension - temp - 2 * MARGIN);
-
-        } else {
-
-            // Add Margins
-            koor = Math.round(temp + MARGIN);
-
-        }
-
-        return koor;
     }
 
     /**
@@ -234,7 +125,7 @@ public class ColumnGraph extends JPanel {
         for (int counter = 1; counter < 100; counter++) {
 
             xPos = (counter - 1) * xRatio;
-            columnHeight = koordinaten(counter, CALC_Y1);
+            columnHeight = calculator.createCoordinate(counter, getHeight(), ECoordinates.Y1);
             windowHeight = getHeight() - MARGIN;
             g2.drawRect((int) xPos + MARGIN, windowHeight - (int) columnHeight, (int) (columnWidth * xRatio), (int) columnHeight);
 
