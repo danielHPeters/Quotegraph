@@ -1,7 +1,8 @@
 package com.quotegraph.view;
 
-import com.quotegraph.controller.CoordinatesCalculator;
+import com.quotegraph.controller.CoordinatesCalculatorLine;
 import com.quotegraph.model.DataLoader;
+import com.quotegraph.model.ECoordinates;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -37,26 +38,6 @@ public class LineGraph extends JPanel {
     private final int MARGIN = 40;
 
     /**
-     * Calculate y
-     */
-    private final String CALC_Y = "y";
-
-    /**
-     * Calculate y1
-     */
-    private final String CALC_Y1 = "y1";
-
-    /**
-     * Calculate x
-     */
-    private final String CALC_X = "x";
-
-    /**
-     * Calculate x1
-     */
-    private final String CALC_X1 = "x1";
-
-    /**
      * Reference to the DataLoader object
      */
     private final DataLoader loader;
@@ -64,18 +45,17 @@ public class LineGraph extends JPanel {
     /**
      *
      */
-    private final CoordinatesCalculator calculator;
+    private final CoordinatesCalculatorLine calculator;
 
     /**
      * Default constructor which initializes the data and appearance of the
      * panel
      *
      * @param loader
-     * @param calculator
      */
-    public LineGraph(DataLoader loader, CoordinatesCalculator calculator) {
+    public LineGraph(DataLoader loader) {
 
-        this.calculator = calculator;
+        this.calculator = new CoordinatesCalculatorLine(loader);
         this.loader = loader;
         initAppearance();
 
@@ -158,10 +138,10 @@ public class LineGraph extends JPanel {
 
         for (int i = 1; i < loader.getData().size(); i++) {
 
-            y = calculator.createCoordinate(i, panelY, CALC_Y);
-            y1 = calculator.createCoordinate(i, panelY, CALC_Y1);
-            x = calculator.createCoordinate(i, panelX, CALC_X);
-            x1 = calculator.createCoordinate(i, panelX, CALC_X1);
+            y = calculator.createCoordinate(i, panelY, ECoordinates.Y);
+            y1 = calculator.createCoordinate(i, panelY, ECoordinates.Y1);
+            x = calculator.createCoordinate(i, panelX, ECoordinates.X);
+            x1 = calculator.createCoordinate(i, panelX, ECoordinates.X1);
 
             g2.drawLine((int) x, (int) y, (int) x1, (int) y1);
 
