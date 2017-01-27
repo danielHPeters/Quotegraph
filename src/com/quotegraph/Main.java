@@ -3,7 +3,6 @@ package com.quotegraph;
 import com.quotegraph.model.DataLoader;
 import com.quotegraph.controller.MysqlLoader;
 import com.quotegraph.controller.FileLoader;
-import com.quotegraph.controller.CoordinatesCalculator;
 import com.quotegraph.controller.DropDownAction;
 import com.quotegraph.view.DataSelect;
 import com.quotegraph.view.LineGraph;
@@ -38,11 +37,6 @@ public class Main {
     private DataLoader loader;
 
     /**
-     *
-     */
-    private CoordinatesCalculator calculator;
-
-    /**
      * Actionlistener, that listens to dropdown menu change
      */
     private DropDownAction action;
@@ -66,8 +60,7 @@ public class Main {
 
         if (!this.loader.hasFailed()) {
 
-            this.calculator = new CoordinatesCalculator(loader);
-            this.graph = new LineGraph(loader, calculator);
+            this.graph = new LineGraph(loader);
             //this.graph = new CandleStickGraph(loader);
             //this.graph = new ColumnGraph(loader);
             this.action = new DropDownAction(loader, graph);
