@@ -1,9 +1,11 @@
 package com.quotegraph;
 
+import com.quotegraph.controller.DbConfig;
 import com.quotegraph.model.DataLoader;
 import com.quotegraph.controller.MysqlLoader;
 import com.quotegraph.controller.FileLoader;
 import com.quotegraph.controller.DropDownAction;
+import com.quotegraph.model.SqlConnection;
 import com.quotegraph.view.DataSelect;
 import com.quotegraph.view.LineGraph;
 import com.quotegraph.view.ColumnGraph;
@@ -31,6 +33,16 @@ public class Main {
      * JPanel for drawing graphs. There are currently 3 types
      */
     private JPanel graph;
+    
+    /**
+     * Sql Database configuration (hots, user, password, db, port)
+     */
+    private DbConfig config;
+    
+    /**
+     * Any type of sql connection
+     */
+    private SqlConnection conn;
 
     /**
      * Loads data from a source. There are two types of DataLoaders. One loads

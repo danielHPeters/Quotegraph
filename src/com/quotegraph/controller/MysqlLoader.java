@@ -59,7 +59,6 @@ public class MysqlLoader extends AbstractDataLoader {
         this.password = password;
         this.db = db;
         this.port = "3306";
-        this.source = source;
         this.load();
     }
 
@@ -81,7 +80,6 @@ public class MysqlLoader extends AbstractDataLoader {
         this.password = password;
         this.db = db;
         this.port = port;
-        this.source = source;
         this.load();
     }
 
