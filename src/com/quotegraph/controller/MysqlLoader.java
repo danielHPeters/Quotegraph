@@ -2,7 +2,6 @@ package com.quotegraph.controller;
 
 import com.quotegraph.model.DayQuote;
 import com.quotegraph.model.SqlConnection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
