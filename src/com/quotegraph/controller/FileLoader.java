@@ -20,6 +20,7 @@ public class FileLoader extends AbstractDataLoader {
 
     /**
      * Default constructor. Sets the fileName to default
+     *
      * @param source
      */
     public FileLoader(String source) {
@@ -34,7 +35,8 @@ public class FileLoader extends AbstractDataLoader {
     @Override
     public final void load() {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(this.source + ".csv"))) {
+        try (BufferedReader br = new BufferedReader(
+                new FileReader(this.source + ".csv"))) {
 
             List<DayQuote> list;
             List<Double> ts;

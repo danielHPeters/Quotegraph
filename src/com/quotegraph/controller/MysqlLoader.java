@@ -77,11 +77,12 @@ public class MysqlLoader extends AbstractDataLoader {
         List<DayQuote> list = new ArrayList<>();
         List<Double> ts = new ArrayList<>();
 
-        if (!this.connection.hasError()) {
-            try {
-
+        try {
+            
+            this.connection.connect();
+            
+            if (!this.connection.hasError()) {
                 query = "select * from " + source;
-                this.connection.connect();
                 statement = this.connection.getConn().createStatement();
                 result = statement.executeQuery(query);
                 format = new SimpleDateFormat("dd.MM.yyyy");
@@ -105,22 +106,24 @@ public class MysqlLoader extends AbstractDataLoader {
                 this.timeStamps = ts;
                 this.minTimeStamp = Collections.min(ts);
                 this.maxTimeStamp = Collections.max(ts);
-
-            } catch (SQLException ex) {
                 
-                System.out.println("Could not execute query");
+            } else {
+                
+                System.out.println("Failed to access MySql database.");
                 this.failed = true;
 
-            } catch (ParseException ex) {
-
-                System.out.println("Internal Error.");
-
             }
-        } else  {
-            System.out.println("Failed to access MySql database.");
+
+        } catch (SQLException ex) {
+
+            System.out.println("Could not execute query");
             this.failed = true;
+
+        } catch (ParseException ex) {
+
+            System.out.println("Internal Error.");
+            this.failed = true;
+
         }
-
-    }
-
+    }       
 }

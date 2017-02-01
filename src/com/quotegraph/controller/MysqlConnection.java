@@ -4,8 +4,6 @@ import com.quotegraph.model.SqlConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Opens a mysql connection. Requires a DbConfig object in order to connect
@@ -40,8 +38,11 @@ public class MysqlConnection implements SqlConnection {
      */
     public MysqlConnection(DbConfig config) {
 
-            this.config = config;
-            this.link = "jdbc:mysql://" + this.config.getHost() + ":" + this.config.getPort() + "/" + this.config.getDb();
+        this.config = config;
+        this.link = "jdbc:mysql://"
+                + this.config.getHost()
+                + ":" + this.config.getPort()
+                + "/" + this.config.getDb();
 
     }
 
@@ -66,15 +67,12 @@ public class MysqlConnection implements SqlConnection {
     public void connect() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(link, this.config.getUser(), this.config.getPassword());
-        } catch (InstantiationException ex) {
-            Logger.getLogger(MysqlConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(MysqlConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MysqlConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MysqlConnection.class.getName()).log(Level.SEVERE, null, ex);
+            conn = DriverManager.getConnection(
+                    link, this.config.getUser(), this.config.getPassword()
+            );
+            
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException ex) {
+            this.error = true;
         }
     }
 
