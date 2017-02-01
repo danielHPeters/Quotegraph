@@ -1,6 +1,7 @@
 package com.quotegraph.controller;
 
 import com.quotegraph.model.DayQuote;
+import com.quotegraph.model.SqlConnection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +18,14 @@ import java.util.Collections;
 public class MysqlLoader extends AbstractDataLoader {
 
     /**
-     * Host name
+     * DB configuration data
      */
-    private String host;
+    private final DbConfig config;
 
     /**
-     * The requested db
+     * Sql connection
      */
-    private String db;
-
-    /**
-     * The user used for opening a connection
-     */
-    private String user;
-
-    /**
-     * The password of the user
-     */
-    private String password;
-
-    /**
-     * Port of the connection
-     */
-    private String port;
+    private final SqlConnection connection;
 
     /**
      * Default constructor which initializes host, user, user password and the
@@ -54,11 +40,8 @@ public class MysqlLoader extends AbstractDataLoader {
     public MysqlLoader(String host, String user, String password, String db, String source) {
         super(source);
         this.failed = false;
-        this.host = host;
-        this.user = user;
-        this.password = password;
-        this.db = db;
-        this.port = "3306";
+        this.config = new DbConfig(host, user, password, db, 3306);
+        this.connection = new MysqlConnection(this.config);
         this.load();
     }
 
@@ -73,13 +56,12 @@ public class MysqlLoader extends AbstractDataLoader {
      * @param source
      * @param port
      */
-    public MysqlLoader(String host, String user, String password, String db, String source, String port) {
+    public MysqlLoader(String host, String user, String password, String db, String source, int port) {
+
         super(source);
-        this.host = host;
-        this.user = user;
-        this.password = password;
-        this.db = db;
-        this.port = port;
+        this.failed = false;
+        this.config = new DbConfig(host, user, password, db, port);
+        this.connection = new MysqlConnection(this.config);
         this.load();
     }
 
@@ -87,9 +69,7 @@ public class MysqlLoader extends AbstractDataLoader {
     public final void load() {
 
         double open, high, low, close;
-        String link;
         String query;
-        Connection conn;
         Statement statement;
         ResultSet result;
         SimpleDateFormat format;
@@ -98,45 +78,47 @@ public class MysqlLoader extends AbstractDataLoader {
         List<DayQuote> list = new ArrayList<>();
         List<Double> ts = new ArrayList<>();
 
-        try {
+        if (!this.connection.hasError()) {
+            try {
 
-            link = "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.db;
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(link, user, password);
-            query = "select * from " + source;
-            statement = conn.createStatement();
-            result = statement.executeQuery(query);
-            format = new SimpleDateFormat("dd.MM.yyyy");
+                query = "select * from " + source;
+                statement = this.connection.getConn().createStatement();
+                result = statement.executeQuery(query);
+                format = new SimpleDateFormat("dd.MM.yyyy");
 
-            while (result.next()) {
+                while (result.next()) {
 
-                date = format.parse(result.getString(2));
-                open = result.getDouble(3);
-                high = result.getDouble(4);
-                low = result.getDouble(5);
-                close = result.getDouble(6);
-                list.add(new DayQuote(date, open, high, low, close));
-                ts.add(TimestampGenerator.dateToTimeStamp(date));
+                    date = format.parse(result.getString(2));
+                    open = result.getDouble(3);
+                    high = result.getDouble(4);
+                    low = result.getDouble(5);
+                    close = result.getDouble(6);
+                    list.add(new DayQuote(date, open, high, low, close));
+                    ts.add(TimestampGenerator.dateToTimeStamp(date));
+
+                }
+
+                this.connection.close();
+                this.data = list;
+                this.minClose = Collections.min(list).getClose();
+                this.maxClose = Collections.max(list).getClose();
+                this.timeStamps = ts;
+                this.minTimeStamp = Collections.min(ts);
+                this.maxTimeStamp = Collections.max(ts);
+
+            } catch (SQLException ex) {
+                
+                System.out.println("Could not execute query");
+                this.failed = true;
+
+            } catch (ParseException ex) {
+
+                System.out.println("Internal Error.");
 
             }
-
-            conn.close();
-            this.data = list;
-            this.minClose = Collections.min(list).getClose();
-            this.maxClose = Collections.max(list).getClose();
-            this.timeStamps = ts;
-            this.minTimeStamp = Collections.min(ts);
-            this.maxTimeStamp = Collections.max(ts);
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-
-            System.out.println("Failed to access MySql Database.");
+        } else  {
+            System.out.println("Failed to access MySql database.");
             this.failed = true;
-
-        } catch (ParseException ex) {
-
-            System.out.println("Internal Error.");
-
         }
 
     }

@@ -29,7 +29,7 @@ public class DbConfig {
     /**
      * Default constructor
      */
-    private String port;
+    private int port;
     
     /**
      * Default constructor
@@ -49,7 +49,7 @@ public class DbConfig {
     }
     
     /**
-     * Thisconstructor also initializes the Port
+     * This constructor also initializes the Port
      * 
      * @param host
      * @param user
@@ -57,7 +57,7 @@ public class DbConfig {
      * @param db
      * @param port 
      */
-    public DbConfig(String host, String user, String password, String db, String port){
+    public DbConfig(String host, String user, String password, String db, int port){
         
         this.host = host;
         this.user = user;
@@ -135,7 +135,7 @@ public class DbConfig {
      * 
      * @return 
      */
-    public String getPort() {
+    public int getPort() {
         return port;
     }
 
@@ -143,7 +143,7 @@ public class DbConfig {
      * 
      * @param port 
      */
-    public void setPort(String port) {
+    public void setPort(int port) {
         this.port = port;
     }
     

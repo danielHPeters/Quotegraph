@@ -25,4 +25,10 @@ public interface SqlConnection {
      */
     public Connection getConn();
     
+    /**
+     * 
+     * @return 
+     */
+    public boolean hasError();
+    
 }
