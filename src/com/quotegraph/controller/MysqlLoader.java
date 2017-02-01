@@ -81,6 +81,7 @@ public class MysqlLoader extends AbstractDataLoader {
             try {
 
                 query = "select * from " + source;
+                this.connection.connect();
                 statement = this.connection.getConn().createStatement();
                 result = statement.executeQuery(query);
                 format = new SimpleDateFormat("dd.MM.yyyy");

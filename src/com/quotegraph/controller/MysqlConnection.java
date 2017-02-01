@@ -40,16 +40,9 @@ public class MysqlConnection implements SqlConnection {
      */
     public MysqlConnection(DbConfig config) {
 
-        try {
-
             this.config = config;
             this.link = "jdbc:mysql://" + this.config.getHost() + ":" + this.config.getPort() + "/" + this.config.getDb();
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(link, this.config.getUser(), this.config.getPassword());
 
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            this.error = true;
-        }
     }
 
     /**
