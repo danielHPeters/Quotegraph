@@ -7,7 +7,7 @@ import java.sql.Connection;
  * 
  * @author Daniel
  */
-public interface SqlConnection {
+public interface ISqlConnection {
     
     /**
      * 

@@ -2,10 +2,9 @@ package com.quotegraph;
 
 import com.quotegraph.controller.DbConfig;
 import com.quotegraph.model.DataLoader;
-import com.quotegraph.controller.MysqlLoader;
+import com.quotegraph.controller.SqlLoader;
 import com.quotegraph.controller.FileLoader;
 import com.quotegraph.controller.DropDownAction;
-import com.quotegraph.model.SqlConnection;
 import com.quotegraph.view.DataSelect;
 import com.quotegraph.view.LineGraph;
 import com.quotegraph.view.ColumnGraph;
@@ -13,6 +12,7 @@ import com.quotegraph.view.CandleStickGraph;
 import com.quotegraph.view.UserInterface;
 import java.awt.BorderLayout;
 import javax.swing.*;
+import com.quotegraph.model.ISqlConnection;
 
 /**
  * This Program displays data from various sources as graphs.
@@ -42,7 +42,7 @@ public class Main {
     /**
      * Any type of sql connection
      */
-    private SqlConnection conn;
+    private ISqlConnection conn;
 
     /**
      * Loads data from a source. There are two types of DataLoaders. One loads
@@ -97,8 +97,8 @@ public class Main {
      */
     private void initData() {
 
-        this.loader = new MysqlLoader(
-                "localhost", "root", "", "boersendaten", this.DEFAULT_SOURCE
+        this.loader = new SqlLoader(
+                "localhost", "postgres", "dp", "boersendaten", this.DEFAULT_SOURCE
         );
 
         if (this.loader.hasFailed()) {
