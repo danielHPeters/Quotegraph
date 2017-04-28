@@ -8,7 +8,7 @@ import com.quotegraph.model.ECoordinates;
  * @author d.peters
  */
 public abstract class AbstractCoordinatesCalculator {
-    
+
     /**
      * Defines the Margin around the graph
      */
@@ -38,39 +38,30 @@ public abstract class AbstractCoordinatesCalculator {
      */
     public double createCoordinate(int index, double axis, ECoordinates coorType) {
 
-        double weltwert = 0, maxVal = 0, minVal = 0;
+        double weltwert, maxVal, minVal;
 
         if (coorType.equals(ECoordinates.Y) || coorType.equals(ECoordinates.Y1)) {
             minVal = loader.getMinClose();
             maxVal = loader.getMaxClose();
 
-            if (coorType.equals(ECoordinates.Y)) {
+            weltwert = coorType.equals(ECoordinates.Y)
+                    ? loader.getData().get(index - 1).getClose()
+                    : loader.getData().get(index).getClose();
 
-                weltwert = loader.getData().get(index - 1).getClose();
-
-            } else {
-
-                weltwert = loader.getData().get(index).getClose();
-
-            }
-        } else if (coorType.equals(ECoordinates.X) || coorType.equals(ECoordinates.X1)) {
+        } else {
 
             minVal = loader.getMinTimeStamp();
             maxVal = loader.getMaxTimeStamp();
 
-            if (coorType.equals(ECoordinates.X)) {
-
-                weltwert = loader.getTimeStamps().get(index - 1);
-            } else {
-
-                weltwert = loader.getTimeStamps().get(index);
-            }
+            weltwert = coorType.equals(ECoordinates.X)
+                    ? loader.getTimeStamps().get(index - 1)
+                    : loader.getTimeStamps().get(index);
         }
 
         return translateToPanel(axis, weltwert, minVal, maxVal, coorType);
     }
-    
+
     public abstract double translateToPanel(double panelDimension, double quote,
             double maxQuote, double minQuote, ECoordinates coorType);
-    
+
 }
