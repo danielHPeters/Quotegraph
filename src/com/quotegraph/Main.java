@@ -73,12 +73,12 @@ public class Main {
         initData();
 
         if (!this.loader.hasFailed()) {
-
+            String[] sources = {"vw", "blackrock", "goldman", "cac40"};
             this.graph = new LineGraph(loader);
             //this.graph = new CandleStickGraph(loader);
             //this.graph = new ColumnGraph(loader);
             this.action = new DropDownAction(loader, graph);
-            this.dropDown = new DataSelect(action);
+            this.dropDown = new DataSelect(action, sources);
             this.ui = new UserInterface(dropDown);
             this.ui.add(graph, BorderLayout.CENTER);
             this.ui.pack();
