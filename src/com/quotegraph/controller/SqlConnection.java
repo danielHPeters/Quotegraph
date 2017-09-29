@@ -40,12 +40,11 @@ public class SqlConnection implements ISqlConnection {
     /**
      *
      * @param config
-     * @param type mysql or postgresql
      */
-    public SqlConnection(DbConfig config, String type) {
+    public SqlConnection(DbConfig config) {
 
         this.config = config;
-        this.type = type;
+        this.type = config.getType();
         this.link = "jdbc:" + type + "://"
                 + this.config.getHost()
                 + ":" + this.config.getPort()

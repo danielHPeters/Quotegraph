@@ -1,6 +1,7 @@
 package com.quotegraph.controller;
 
 import com.quotegraph.model.DayQuote;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,16 +15,18 @@ import java.util.List;
 /**
  * Loads the quotes data from a file
  *
- * @author d.peters
+ * @author Daniel Peters
+ * @version 1.2
  */
 public class FileLoader extends AbstractDataLoader {
 
     /**
-     * Default constructor. Sets the fileName to default
+     * Default constructor. Sets the file name to default
      *
-     * @param source
+     * @param source source file location
      */
     public FileLoader(String source) {
+
         super(source);
         this.failed = false;
         this.load();
@@ -43,7 +46,7 @@ public class FileLoader extends AbstractDataLoader {
             String s;
             Date dat;
             SimpleDateFormat format;
-            double start, hoch, tief, schluss;
+            double start, high, low, close;
 
             format = new SimpleDateFormat(this.DEFAULT_DATE_FORMAT);
             list = new ArrayList<>();
@@ -55,10 +58,10 @@ public class FileLoader extends AbstractDataLoader {
 
                 dat = format.parse(token[0]);
                 start = Double.parseDouble(token[1]);
-                hoch = Double.parseDouble(token[2]);
-                tief = Double.parseDouble(token[3]);
-                schluss = Double.parseDouble(token[4]);
-                list.add(new DayQuote(dat, start, hoch, tief, schluss));
+                high = Double.parseDouble(token[2]);
+                low = Double.parseDouble(token[3]);
+                close = Double.parseDouble(token[4]);
+                list.add(new DayQuote(dat, start, high, low, close));
                 ts.add(TimestampGenerator.dateToTimeStamp(dat));
 
             }

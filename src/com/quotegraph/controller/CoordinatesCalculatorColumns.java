@@ -1,13 +1,11 @@
 package com.quotegraph.controller;
 
 import com.quotegraph.model.DataLoader;
-import com.quotegraph.model.ECoordinates;
 
 /**
- *
  * @author d.peters
  */
-public class CoordinatesCalculatorColumns extends AbstractCoordinatesCalculator {
+public class CoordinatesCalculatorColumns extends CoordinatesCalculator {
 
     /**
      * Default constructor.
@@ -20,48 +18,13 @@ public class CoordinatesCalculatorColumns extends AbstractCoordinatesCalculator 
 
     }
 
-    /**
-     * Fensterkoordinaten ausrechnen
-     *
-     * @param windowDimension
-     * @param value
-     * @param minVal
-     * @param maxVal
-     * @param coorType
-     * @return
-     */
     @Override
-    public double translateToPanel(double windowDimension, double value,
-            double minVal, double maxVal, ECoordinates coorType) {
+    public double translateToPanel(double panelSide, double value, double max, double min, boolean inverted) {
 
-        double koor;
+        double ratio = (panelSide - 2 * MARGIN) / (min - max);
+        double temp = (value - max) * ratio;
 
-        /**
-         * Verhältnis von Fensterwert zu Originalwer Abstände werden zu allen
-         * Seiten mit einberechnet
-         */
-        double ratio = (windowDimension - 2 * MARGIN) / (maxVal - minVal);
-
-        /**
-         * Da die Y Koordinaten im JPanel umgekehrt werden müssen, wird das
-         * Resultat der Formel zwischengespeichert
-         */
-        double temp = (value - minVal) * ratio;
-
-        // Abfrage, da y Achse umgekehrt werden muss.
-        if (coorType.equals(ECoordinates.Y) || coorType.equals(ECoordinates.Y1)) {
-
-            // Y-Achse umkehren und Abstand zum Rand einsetzen
-            koor = Math.round(windowDimension - temp - 2 * MARGIN);
-
-        } else {
-
-            // Add Margins
-            koor = Math.round(temp + MARGIN);
-
-        }
-
-        return koor;
+        return Math.round(inverted ? panelSide - temp - MARGIN : temp + MARGIN);
     }
 
 }

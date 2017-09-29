@@ -5,40 +5,41 @@ import com.quotegraph.model.DataLoader;
 import com.quotegraph.controller.SqlLoader;
 import com.quotegraph.controller.FileLoader;
 import com.quotegraph.controller.DropDownAction;
+import com.quotegraph.view.ColumnGraph;
 import com.quotegraph.view.DataSelect;
 import com.quotegraph.view.LineGraph;
-import com.quotegraph.view.ColumnGraph;
-import com.quotegraph.view.CandleStickGraph;
 import com.quotegraph.view.UserInterface;
+
 import java.awt.BorderLayout;
 import javax.swing.*;
+
 import com.quotegraph.model.ISqlConnection;
 
 /**
  * This Program displays data from various sources as graphs.
  * Right now, there are line graphs, column graphs and candlestick graphs available.
- * The most complete and funtional one ist the line graph.
- * TODO: 
+ * The most complete and functional one ist the line graph.
+ * TODO:
  * Improve column and candlestick graphs.
  * Let the user change the graph types via menu controls.
- * 
+ *
  * @author d.peters
  * @version 13.01.2017
  */
 public class Main {
-    
-    private final String DEFAULT_SOURCE = "vw";
+
+    private final String DEFAULT_SOURCE = "data/vw";
 
     /**
      * JPanel for drawing graphs. There are currently 3 types
      */
     private JPanel graph;
-    
+
     /**
      * Sql Database configuration (hots, user, password, db, port)
      */
     private DbConfig config;
-    
+
     /**
      * Any type of sql connection
      */
@@ -51,7 +52,7 @@ public class Main {
     private DataLoader loader;
 
     /**
-     * Actionlistener, that listens to dropdown menu change
+     * Action listener, that listens to dropdown menu change
      */
     private DropDownAction action;
 
@@ -74,9 +75,9 @@ public class Main {
 
         if (!this.loader.hasFailed()) {
 
-            this.graph = new LineGraph(loader);
+            //this.graph = new LineGraph(loader);
             //this.graph = new CandleStickGraph(loader);
-            //this.graph = new ColumnGraph(loader);
+            this.graph = new ColumnGraph(loader);
             this.action = new DropDownAction(loader, graph);
             this.dropDown = new DataSelect(action);
             this.ui = new UserInterface(dropDown);
@@ -111,7 +112,7 @@ public class Main {
 
                 System.out.println(
                         "No data could be loaded at the Moment. "
-                        + "Please try again later."
+                                + "Please try again later."
                 );
 
             } else {
@@ -172,12 +173,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        SwingUtilities.invokeLater(() -> {
-
-            Main program = new Main();
-            program.modifyLookAndFeel();
-
-        });
+        SwingUtilities.invokeLater(new Main()::modifyLookAndFeel);
 
     }
 }

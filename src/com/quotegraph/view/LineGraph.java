@@ -1,5 +1,6 @@
 package com.quotegraph.view;
 
+import com.quotegraph.controller.CoordinatesCalculator;
 import com.quotegraph.controller.CoordinatesCalculatorLine;
 import com.quotegraph.model.DataLoader;
 import com.quotegraph.model.ECoordinates;
@@ -45,7 +46,7 @@ public class LineGraph extends JPanel {
     /**
      *
      */
-    private final CoordinatesCalculatorLine calculator;
+    private final CoordinatesCalculator calculator;
 
     /**
      * Default constructor which initializes the data and appearance of the
@@ -55,7 +56,7 @@ public class LineGraph extends JPanel {
      */
     public LineGraph(DataLoader loader) {
 
-        this.calculator = new CoordinatesCalculatorLine(loader);
+        this.calculator = new CoordinatesCalculator(loader);
         this.loader = loader;
         initAppearance();
 

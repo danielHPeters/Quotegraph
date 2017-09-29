@@ -5,7 +5,6 @@ import java.util.Date;
 /**
  * Represents data from a daily quote as an object
  *
- *
  * @author d.peters
  */
 public class DayQuote implements Comparable<DayQuote> {
@@ -45,6 +44,7 @@ public class DayQuote implements Comparable<DayQuote> {
      * @param close
      */
     public DayQuote(Date quoteDate, double open, double high, double low, double close) {
+
         this.quoteDate = quoteDate;
         this.open = open;
         this.high = high;
@@ -53,7 +53,6 @@ public class DayQuote implements Comparable<DayQuote> {
     }
 
     /**
-     *
      * @return
      */
     public Date getQuoteDate() {
@@ -61,7 +60,6 @@ public class DayQuote implements Comparable<DayQuote> {
     }
 
     /**
-     *
      * @return
      */
     public double getOpen() {
@@ -69,7 +67,6 @@ public class DayQuote implements Comparable<DayQuote> {
     }
 
     /**
-     *
      * @return
      */
     public double getHigh() {
@@ -77,7 +74,6 @@ public class DayQuote implements Comparable<DayQuote> {
     }
 
     /**
-     *
      * @return
      */
     public double getLow() {
@@ -85,7 +81,6 @@ public class DayQuote implements Comparable<DayQuote> {
     }
 
     /**
-     *
      * @return
      */
     public Double getClose() {
@@ -93,7 +88,6 @@ public class DayQuote implements Comparable<DayQuote> {
     }
 
     /**
-     *
      * @param o
      * @return
      */

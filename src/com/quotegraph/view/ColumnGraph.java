@@ -1,8 +1,10 @@
 package com.quotegraph.view;
 
+import com.quotegraph.controller.CoordinatesCalculator;
 import com.quotegraph.controller.CoordinatesCalculatorColumns;
 import com.quotegraph.model.DataLoader;
 import com.quotegraph.model.ECoordinates;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,7 +14,7 @@ import javax.swing.JPanel;
 
 /**
  * Display data as a colum graph. TODO: Scaling needs to be improved.
- *
+ * <p>
  * Formula for for scaling coordinates: x = (actualValX - MinActualValX) *
  * windowWidth / (MaxActualValX - MinActualValX); y = (actualValY -
  * MinActualValY) * windowHeight / (MaxActualValY - MinActualValY);
@@ -40,11 +42,11 @@ public class ColumnGraph extends JPanel {
      * Defines the Margin around the graph
      */
     private final int MARGIN = 40;
-    
+
     /**
      *
      */
-    private final CoordinatesCalculatorColumns calculator;
+    private final CoordinatesCalculator calculator;
 
     /**
      * Setzt das Aussehen und Dimension der Zeichenoberfläche bei Aufruf.
@@ -53,7 +55,7 @@ public class ColumnGraph extends JPanel {
      */
     public ColumnGraph(DataLoader loader) {
 
-        this.calculator = new CoordinatesCalculatorColumns(loader);
+        this.calculator = new CoordinatesCalculator(loader);
         initAppearance();
 
     }
@@ -69,7 +71,6 @@ public class ColumnGraph extends JPanel {
     }
 
     /**
-     *
      * @param g2
      */
     public void paintXAxis(Graphics2D g2) {
@@ -90,7 +91,6 @@ public class ColumnGraph extends JPanel {
     }
 
     /**
-     *
      * @param g2
      */
     public void paintYAxis(Graphics2D g2) {
@@ -111,7 +111,6 @@ public class ColumnGraph extends JPanel {
     }
 
     /**
-     *
      * @param g2
      */
     public void drawColums(Graphics2D g2) {

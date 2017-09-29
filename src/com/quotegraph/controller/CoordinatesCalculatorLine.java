@@ -1,14 +1,13 @@
 package com.quotegraph.controller;
 
 import com.quotegraph.model.DataLoader;
-import com.quotegraph.model.ECoordinates;
 
 /**
  * Scales coordinates to the window to allow for resizing of graph
  *
  * @author d.peters
  */
-public class CoordinatesCalculatorLine extends AbstractCoordinatesCalculator{
+public class CoordinatesCalculatorLine extends CoordinatesCalculator {
     
     /**
      * Default constructor.
@@ -20,35 +19,21 @@ public class CoordinatesCalculatorLine extends AbstractCoordinatesCalculator{
     }
 
     /**
-     * Calculate window coordinates.
+     * Translate data items to panel dimensions. Set inverted to true for y axis because 0 starts at top and not bottom.
      *
-     * @param panelDimension
-     * @param quote
-     * @param maxQuote
-     * @param minQuote
-     * @param coorType
+     * @param panelSide width or height of panel
+     * @param quote     data item from quotes
+     * @param max       maximum in quotes list
+     * @param min       minimum in quotes list
+     * @param inverted  boolean to check if axis is inverted
      * @return
      */
     @Override
-    public double translateToPanel(double panelDimension, double quote,
-            double maxQuote, double minQuote, ECoordinates coorType) {
+    public double translateToPanel(double panelSide, double quote, double max, double min, boolean inverted) {
 
-        double koor;
-        double ratio = (panelDimension - 2 * this.MARGIN) / (minQuote - maxQuote);
-        double tempResult = (quote - maxQuote) * ratio;
+        double ratio = (panelSide - 2 * MARGIN) / (min - max);
+        double temp = (quote - max) * ratio;
 
-        if (coorType.equals(ECoordinates.Y) || coorType.equals(ECoordinates.Y1)) {
-            
-            // Invert y-axis and add margins
-            koor = Math.round(panelDimension - tempResult - this.MARGIN);
-            
-        } else {
-            
-            // Add margins
-            koor = Math.round(tempResult + this.MARGIN);
-            
-        }
-
-        return koor;
+        return Math.round(inverted ? panelSide - temp - MARGIN : temp + MARGIN);
     }
 }

@@ -2,10 +2,16 @@ package com.quotegraph.controller;
 
 /**
  *
- * @author Daniel
+ * @author Daniel Peters
+ * @version 1.2
  */
 public class DbConfig {
-    
+
+    /**
+     * Type of database
+     */
+    private String type;
+
     /**
      * Host name
      */
@@ -33,14 +39,16 @@ public class DbConfig {
     
     /**
      * Default constructor
-     * 
+     *
+     * @param type
      * @param host
      * @param user
      * @param password
      * @param db 
      */
-    public DbConfig(String host, String user, String password, String db){
-        
+    public DbConfig(String type, String host, String user, String password, String db){
+
+        this.type = type;
         this.host = host;
         this.user = user;
         this.password = password;
@@ -50,21 +58,31 @@ public class DbConfig {
     
     /**
      * This constructor also initializes the Port
-     * 
+     *
+     * @param type
      * @param host
      * @param user
      * @param password
      * @param db
      * @param port 
      */
-    public DbConfig(String host, String user, String password, String db, int port){
-        
+    public DbConfig(String type, String host, String user, String password, String db, int port){
+
+        this.type = type;
         this.host = host;
         this.user = user;
         this.password = password;
         this.db = db;
         this.port = port;
         
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**

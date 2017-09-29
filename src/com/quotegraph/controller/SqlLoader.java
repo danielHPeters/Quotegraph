@@ -1,6 +1,7 @@
 package com.quotegraph.controller;
 
 import com.quotegraph.model.DayQuote;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
@@ -8,10 +9,10 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+
 import com.quotegraph.model.ISqlConnection;
 
 /**
- *
  * @author d.peters
  */
 public class SqlLoader extends AbstractDataLoader {
@@ -30,17 +31,17 @@ public class SqlLoader extends AbstractDataLoader {
      * Default constructor which initializes host, user, user password and the
      * database.
      *
-     * @param host The Host
-     * @param user User
+     * @param host     The Host
+     * @param user     User
      * @param password Password of User
-     * @param db The required db
+     * @param db       The required db
      * @param source
      */
     public SqlLoader(String host, String user, String password, String db, String source) {
         super(source);
         this.failed = false;
-        this.config = new DbConfig(host, user, password, db, 5432/*3306*/);
-        this.connection = new SqlConnection(this.config, "postgresql");
+        this.config = new DbConfig("postgresql", host, user, password, db, 5432/*3306*/);
+        this.connection = new SqlConnection(this.config);
         this.load();
     }
 
@@ -59,8 +60,8 @@ public class SqlLoader extends AbstractDataLoader {
 
         super(source);
         this.failed = false;
-        this.config = new DbConfig(host, user, password, db, port);
-        this.connection = new SqlConnection(this.config, "postgresql");
+        this.config = new DbConfig("postgresql", host, user, password, db, port);
+        this.connection = new SqlConnection(this.config);
         this.load();
     }
 
@@ -78,9 +79,9 @@ public class SqlLoader extends AbstractDataLoader {
         List<Double> ts = new ArrayList<>();
 
         try {
-            
+
             this.connection.connect();
-            
+
             if (!this.connection.hasError()) {
                 query = "select * from " + source;
                 statement = this.connection.getConn().createStatement();
@@ -106,9 +107,9 @@ public class SqlLoader extends AbstractDataLoader {
                 this.timeStamps = ts;
                 this.minTimeStamp = Collections.min(ts);
                 this.maxTimeStamp = Collections.max(ts);
-                
+
             } else {
-                
+
                 System.out.println("Failed to access MySql database.");
                 this.failed = true;
 
@@ -125,5 +126,5 @@ public class SqlLoader extends AbstractDataLoader {
             this.failed = true;
 
         }
-    }       
+    }
 }

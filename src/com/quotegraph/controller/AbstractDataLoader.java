@@ -145,8 +145,6 @@ abstract class AbstractDataLoader implements DataLoader{
     }
 
     @Override
-    public void load() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    abstract public void load();
     
 }

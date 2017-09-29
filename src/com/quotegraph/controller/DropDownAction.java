@@ -44,7 +44,7 @@ public class DropDownAction implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
 
         JComboBox cb = (JComboBox) ae.getSource();
-        String location = (String) cb.getSelectedItem();
+        String location = "data/" + (String) cb.getSelectedItem();
 
         loader.setSource(location);
         loader.load();
