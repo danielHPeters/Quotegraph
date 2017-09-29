@@ -5,14 +5,13 @@ import com.quotegraph.model.DataLoader;
 import com.quotegraph.controller.SqlLoader;
 import com.quotegraph.controller.FileLoader;
 import com.quotegraph.controller.DropDownAction;
-import com.quotegraph.view.ColumnGraph;
 import com.quotegraph.view.DataSelect;
 import com.quotegraph.view.LineGraph;
+import com.quotegraph.view.ColumnGraph;
+import com.quotegraph.view.CandleStickGraph;
 import com.quotegraph.view.UserInterface;
-
 import java.awt.BorderLayout;
 import javax.swing.*;
-
 import com.quotegraph.model.ISqlConnection;
 
 /**
@@ -74,12 +73,12 @@ public class Main {
         initData();
 
         if (!this.loader.hasFailed()) {
-
-            //this.graph = new LineGraph(loader);
+            String[] sources = {"vw", "blackrock", "goldman", "cac40"};
+            this.graph = new LineGraph(loader);
             //this.graph = new CandleStickGraph(loader);
-            this.graph = new ColumnGraph(loader);
+            //this.graph = new ColumnGraph(loader);
             this.action = new DropDownAction(loader, graph);
-            this.dropDown = new DataSelect(action);
+            this.dropDown = new DataSelect(action, sources);
             this.ui = new UserInterface(dropDown);
             this.ui.add(graph, BorderLayout.CENTER);
             this.ui.pack();

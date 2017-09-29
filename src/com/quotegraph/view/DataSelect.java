@@ -19,10 +19,9 @@ public class DataSelect extends JComboBox<String> {
      * dropdown
      *
      * @param action
+     * @param fileNames
      */
-    public DataSelect(DropDownAction action) {
-
-        String[] fileNames = {"vw", "blackrock", "goldman", "cac40"};
+    public DataSelect(DropDownAction action, String[] fileNames) {
 
         this.action = action;
         setModel(new DefaultComboBoxModel<>(fileNames));
