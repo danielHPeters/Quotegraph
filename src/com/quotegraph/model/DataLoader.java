@@ -3,64 +3,27 @@ package com.quotegraph.model;
 import java.util.List;
 
 /**
+ * Interface for data loading classes
  *
- * @author d.peters
+ * @author Daniel Peters
+ * @version 1.0
  */
 public interface DataLoader {
+  void load();
 
-    /**
-     * Load data using default source
-     *
-     */
-    public void load();
+  void setSource(String source);
 
-    /**
-     * Set the Source of the data
-     *
-     * @param source
-     */
-    public void setSource(String source);
-    
-    /**
-     * 
-     * @return 
-     */
-    public List<DayQuote> getData();
-    
-    /**
-     * 
-     * @return 
-     */
-    public double getMinClose();
-    
-    /**
-     * 
-     * @return 
-     */
-    public double getMaxClose();
-    
-    /**
-     * 
-     * @return 
-     */
-    public List<Double> getTimeStamps();
-    
-    /**
-     * 
-     * @return 
-     */
-    public double getMinTimeStamp();
-    
-    /**
-     * 
-     * @return 
-     */
-    public double getMaxTimeStamp();
-    
-    /**
-     * 
-     * @return 
-     */
-    public boolean hasFailed();
+  List<DayQuote> getData();
 
+  double getMinClose();
+
+  double getMaxClose();
+
+  List<Double> getTimeStamps();
+
+  double getMinTimeStamp();
+
+  double getMaxTimeStamp();
+
+  boolean hasFailed();
 }

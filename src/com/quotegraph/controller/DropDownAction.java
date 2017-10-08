@@ -1,6 +1,7 @@
 package com.quotegraph.controller;
 
 import com.quotegraph.model.DataLoader;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
@@ -11,45 +12,35 @@ import javax.swing.JPanel;
  * dropdown, sets the selected source and tells the DataLoader to load the
  * selected data.
  *
- * @author d.peters
+ * @author Daniel Peters
  */
 public class DropDownAction implements ActionListener {
+  private final DataLoader loader;
+  private final JPanel canvas;
 
-    /**
-     * Reference to the DataLoader object, that loads the data
-     */
-    private final DataLoader loader;
+  /**
+   * Default constructor.
+   *
+   * @param loader reference to DataLoader object
+   * @param canvas reference to JPanel object
+   */
+  public DropDownAction(DataLoader loader, JPanel canvas) {
+    this.loader = loader;
+    this.canvas = canvas;
+  }
 
-    /**
-     * Reference to the JPanel object where the drawing is done
-     */
-    private final JPanel panel;
+  /**
+   * Changes file or table to the one selected by user in the menu.
+   *
+   * @param ae the triggering event
+   */
+  @Override
+  public void actionPerformed(ActionEvent ae) {
+    JComboBox cb = (JComboBox) ae.getSource();
+    String location = "data/" + cb.getSelectedItem();
 
-    /**
-     *
-     * @param loader reference to DataLoader object
-     * @param panel reference to JPanel object
-     */
-    public DropDownAction(DataLoader loader, JPanel panel) {
-        this.loader = loader;
-        this.panel = panel;
-    }
-
-    /**
-     * Changes file or table to the one selected by user in the menu
-     *
-     * @param ae the triggering event
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-
-        JComboBox cb = (JComboBox) ae.getSource();
-        String location = "data/" + (String) cb.getSelectedItem();
-
-        loader.setSource(location);
-        loader.load();
-        panel.repaint();
-
-    }
-
+    loader.setSource(location);
+    loader.load();
+    canvas.repaint();
+  }
 }

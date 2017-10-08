@@ -1,57 +1,31 @@
 package com.quotegraph.interfaces;
 
 /**
+ * Interface for 2D int vectors.
+ *
  * @author Daniel Peters
  * @version 1.0
  */
 public interface IVector2I {
+  int getX();
 
-    /**
-     * @return
-     */
-    public int getX();
+  int getY();
 
-    /**
-     * @return
-     */
-    public int getY();
+  void add(IVector2I vector);
 
-    /**
-     * @param vector
-     */
-    public void add(IVector2I vector);
+  void sub(IVector2I vector);
 
-    /**
-     * @param vector
-     */
-    public void sub(IVector2I vector);
+  void mult(int scalar);
 
-    /**
-     * @param scalar
-     */
-    public void mult(int scalar);
+  void div(int scalar);
 
-    /**
-     * @param scalar
-     */
-    public void div(int scalar);
+  int mag();
 
-    /**
-     * @return
-     */
-    public int mag();
+  void normalize();
 
-    /**
-     *
-     */
-    public void normalize();
+  void limit(int max);
 
-    /**
-     * @param max
-     */
-    public void limit(int max);
+  void set(int x, int y);
 
-    public void set(int x, int y);
-
-    public void set(IVector2I vector);
+  void set(IVector2I vector);
 }

@@ -2,149 +2,115 @@ package com.quotegraph.controller;
 
 import com.quotegraph.model.DataLoader;
 import com.quotegraph.model.DayQuote;
+
 import java.util.List;
 
 /**
+ * Abstract implementation of DataLoader interface.
  *
- * @author d.peters
+ * @author Daniel Peters
  */
-abstract class AbstractDataLoader implements DataLoader{
-    
-    /**
-     *
-     */
-    protected final String DEFAULT_DATE_FORMAT = "dd.MM.yyyy";
+abstract class AbstractDataLoader implements DataLoader {
+  protected final String defaultDateFormat = "dd.MM.yyyy";
+  protected String source;
+  protected List<DayQuote> data;
+  protected List<Double> timeStamps;
+  protected double minClose;
+  protected double maxClose;
+  protected double minTimeStamp;
+  protected double maxTimeStamp;
+  protected boolean failed;
 
-    /**
-     * The file containing quotes to be opened
-     */
-    protected String source;
+  /**
+   * Default constructor. Sets the fileName to default.
+   *
+   * @param source file to be opened
+   */
+  public AbstractDataLoader(String source) {
+    this.failed = false;
+    this.source = source;
+  }
 
-    /**
-     *
-     */
-    protected List<DayQuote> data;
+  /**
+   * Get the fileName.
+   *
+   * @param source file to be loaded
+   */
+  @Override
+  public void setSource(String source) {
+    this.source = source;
+  }
 
-    /**
-     *
-     */
-    protected List<Double> timeStamps;
+  /**
+   * Get the data List.
+   *
+   * @return quotes list
+   */
+  @Override
+  public List<DayQuote> getData() {
+    return this.data;
+  }
 
-    /**
-     *
-     */
-    protected double minClose;
+  /**
+   * Get the minimum close.
+   *
+   * @return min close value
+   */
+  @Override
+  public double getMinClose() {
+    return this.minClose;
+  }
 
-    /**
-     *
-     */
-    protected double maxClose;
+  /**
+   * Get the maximum close.
+   *
+   * @return max close value
+   */
+  @Override
+  public double getMaxClose() {
+    return this.maxClose;
+  }
 
-    /**
-     *
-     */
-    protected double minTimeStamp;
+  /**
+   * Get the timestamp list.
+   *
+   * @return list of all timestamps
+   */
+  @Override
+  public List<Double> getTimeStamps() {
+    return this.timeStamps;
+  }
 
-    /**
-     *
-     */
-    protected double maxTimeStamp;
+  /**
+   * Get the lowest value timestamp.
+   *
+   * @return min timestamp
+   */
+  @Override
+  public double getMinTimeStamp() {
+    return this.minTimeStamp;
+  }
 
-    /**
-     *
-     */
-    protected boolean failed;
+  /**
+   * Get the highest value timestamp.
+   *
+   * @return max timestamp
+   */
+  @Override
+  public double getMaxTimeStamp() {
+    return this.maxTimeStamp;
+  }
 
-    /**
-     * Default constructor. Sets the fileName to default
-     * @param source
-     */
-    public AbstractDataLoader(String source) {
-        this.failed = false;
-        this.source = source;
-    }
+  /**
+   * Boolean flag for loading or source error.
+   *
+   * @return flag for failure
+   */
+  @Override
+  public boolean hasFailed() {
+    return this.failed;
+  }
 
-    /**
-     * Get the fileName
-     *
-     * @param source
-     */
-    @Override
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    /**
-     * Get the data List
-     *
-     * @return
-     */
-    @Override
-    public List<DayQuote> getData() {
-        return this.data;
-    }
-
-    /**
-     * Get the minimum close
-     *
-     * @return
-     */
-    @Override
-    public double getMinClose() {
-        return this.minClose;
-    }
-
-    /**
-     * Get the maximum close
-     *
-     * @return
-     */
-    @Override
-    public double getMaxClose() {
-        return this.maxClose;
-    }
-
-    /**
-     * Get the timestamp list
-     *
-     * @return
-     */
-    @Override
-    public List<Double> getTimeStamps() {
-        return this.timeStamps;
-    }
-
-    /**
-     * Get the lowest value timestamp
-     *
-     * @return
-     */
-    @Override
-    public double getMinTimeStamp() {
-        return this.minTimeStamp;
-    }
-
-    /**
-     * Get the highest value timestamp
-     *
-     * @return
-     */
-    @Override
-    public double getMaxTimeStamp() {
-        return this.maxTimeStamp;
-    }
-
-    /**
-     * Boolean flag for loading or source error
-     *
-     * @return
-     */
-    @Override
-    public boolean hasFailed() {
-        return this.failed;
-    }
-
-    @Override
-    abstract public void load();
-    
+  @Override
+  public abstract void load();
 }

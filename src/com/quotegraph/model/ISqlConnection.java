@@ -3,32 +3,16 @@ package com.quotegraph.model;
 import java.sql.Connection;
 
 /**
- * Interface used for database abstraction
- * 
- * @author Daniel
+ * Interface used for database abstraction.
+ *
+ * @author Daniel Peters
  */
 public interface ISqlConnection {
-    
-    /**
-     * 
-     */
-    public void connect();
-    
-    /**
-     * 
-     */
-    public void close();
-    
-    /**
-     * 
-     * @return 
-     */
-    public Connection getConn();
-    
-    /**
-     * 
-     * @return 
-     */
-    public boolean hasError();
-    
+  void connect();
+
+  void close();
+
+  Connection getConn();
+
+  boolean hasError();
 }

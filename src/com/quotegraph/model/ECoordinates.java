@@ -1,9 +1,10 @@
 package com.quotegraph.model;
 
 /**
+ * Coordinates enum.
  *
- * @author d.peters
+ * @author Daniel Peters
  */
 public enum ECoordinates {
-    Y, Y1, X, X1;
+  Y, Y1, X, X1
 }
