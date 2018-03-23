@@ -43,19 +43,18 @@ class Main {
    */
   private fun initData() {
     loader = SqlLoader(defaultSource, DbConfig("postgres", "localhost", "dp", "", "boersendaten", 5432))
-
+    data = loader.load()
     if (loader.failed) {
       System.out.println("Trying to use files as fallback.")
 
       loader = FileLoader(defaultSource)
+      data = loader.load()
       if (loader.failed) {
         System.out.println("No data could be loaded at the Moment. Please try again later.")
       } else {
-        data = loader.load()
         System.out.println("Using files as data source")
       }
     } else {
-      data = loader.load()
       System.out.println("Using MySql as data source.")
     }
   }
