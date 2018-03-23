@@ -52,9 +52,9 @@ crashlytics-build.properties
 fabric.properties
 
 # Windows thumbnail cache files
-Thumbs.db
-ehthumbs.db
-ehthumbs_vista.db
+Thumbs.database
+ehthumbs.database
+ehthumbs_vista.database
 
 # Dump file
 *.stackdump
