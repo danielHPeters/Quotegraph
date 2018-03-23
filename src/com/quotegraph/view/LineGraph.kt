@@ -39,14 +39,6 @@ class LineGraph(private val data: List<DayQuote>) : JPanel() {
    */
   private val margin = 40
 
-  /**
-   * Initialize the appearance of this panel.
-   */
-  private fun initAppearance() {
-    preferredSize = Dimension(defaultWidth, defaultHeight)
-    background = backgroundColor
-  }
-
   private fun printText(g2: Graphics2D, text: String, x: Double, x1: Double) {
     g2.drawLine(x.toInt(), margin, x1.toInt(), height - margin)
     g2.drawString(text, x.toFloat(), (margin / 2).toFloat())
@@ -156,6 +148,7 @@ class LineGraph(private val data: List<DayQuote>) : JPanel() {
   }
 
   init {
-    initAppearance()
+    preferredSize = Dimension(defaultWidth, defaultHeight)
+    background = backgroundColor
   }
 }
