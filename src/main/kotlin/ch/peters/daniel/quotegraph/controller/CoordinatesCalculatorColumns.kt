@@ -8,7 +8,7 @@ import ch.peters.daniel.quotegraph.model.DayQuote
  * @author Daniel Peters
  * @version 1.0
  */
-class CoordinatesCalculatorColumns(data: List<DayQuote>) : AbstractCoordinatesCalculator() {
+class CoordinatesCalculatorColumns(data: List<DayQuote>) : AbstractCoordinatesCalculator(data) {
   override fun translateToPanel(side: Double, value: Double, max: Double, min: Double, inverted: Boolean): Double {
     val ratio = (side - 2 * margin) / (min - max)
     val temp = (value - max) * ratio

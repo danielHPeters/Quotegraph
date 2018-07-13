@@ -1,6 +1,6 @@
 package ch.peters.daniel.quotegraph.view
 
-import com.quotegraph.model.DayQuote
+import ch.peters.daniel.quotegraph.model.DayQuote
 
 import java.awt.Color
 import java.awt.Dimension

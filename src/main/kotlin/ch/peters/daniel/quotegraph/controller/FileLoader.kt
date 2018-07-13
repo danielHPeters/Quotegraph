@@ -4,10 +4,12 @@ import ch.peters.daniel.quotegraph.interfaces.IDataLoader
 import ch.peters.daniel.quotegraph.model.DayQuote
 
 import java.io.BufferedReader
-import java.io.FileReader
 import java.io.IOException
+import java.io.InputStreamReader
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.ArrayList
 
 /**
@@ -18,7 +20,7 @@ import java.util.ArrayList
  */
 class FileLoader(override var source: String) : IDataLoader {
   override var failed: Boolean = false
-  var dateFormat: String = "dd.MM.yyyy"
+  private var datePatter: String = "dd.MM.uuuu"
 
   /**
    * Load the data from the file and add each line to the list.
@@ -27,12 +29,12 @@ class FileLoader(override var source: String) : IDataLoader {
     val list = ArrayList<DayQuote>()
 
     try {
-      val br = BufferedReader(FileReader("$source.csv"))
-      val format = SimpleDateFormat(dateFormat)
-
+      val url = javaClass.classLoader.getResource("$source.csv")
+      val br = BufferedReader(InputStreamReader(url.openStream()))
       br.lines().forEach { line: String ->
-        val token = line.split("")
-        val dat = format.parse(token[0])
+        System.out.println(line)
+        val token = line.split(";")
+        val dat = LocalDate.parse(token[0], DateTimeFormatter.ofPattern(datePatter)).atStartOfDay()
         val start = token[1].toDouble()
         val high = token[2].toDouble()
         val low = token[3].toDouble()

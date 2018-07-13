@@ -1,14 +1,14 @@
 package ch.peters.daniel.quotegraph
 
-import com.quotegraph.controller.DbConfig
-import com.quotegraph.controller.DropDownAction
-import com.quotegraph.controller.FileLoader
-import com.quotegraph.controller.SqlLoader
-import com.quotegraph.interfaces.IDataLoader
-import com.quotegraph.model.DayQuote
-import com.quotegraph.view.DataSelect
-import com.quotegraph.view.LineGraph
-import com.quotegraph.view.UserInterface
+import ch.peters.daniel.quotegraph.controller.DbConfig
+import ch.peters.daniel.quotegraph.controller.DropDownAction
+import ch.peters.daniel.quotegraph.controller.FileLoader
+import ch.peters.daniel.quotegraph.controller.SqlLoader
+import ch.peters.daniel.quotegraph.interfaces.IDataLoader
+import ch.peters.daniel.quotegraph.model.DayQuote
+import ch.peters.daniel.quotegraph.view.DataSelect
+import ch.peters.daniel.quotegraph.view.LineGraph
+import ch.peters.daniel.quotegraph.view.UserInterface
 import java.awt.BorderLayout
 import javax.swing.JFrame
 import javax.swing.JOptionPane
@@ -62,8 +62,6 @@ class App {
     if (!loader.failed) {
       val sources = arrayOf("vw", "blackrock", "goldman", "cac40")
       graph = LineGraph(data)
-      // graph = CandleStickGraph(data)
-      // graph = ColumnGraph(data)
       action = DropDownAction(loader, graph)
       dropDown = DataSelect(action, sources)
       ui = UserInterface(dropDown)
@@ -107,16 +105,18 @@ class App {
     } catch (e: Exception) {
       e.printStackTrace()
     }
-
   }
 
   init {
+    setLooks()
     initData()
     initGui()
-    setLooks()
   }
-}
 
-fun main(args: Array<String>) {
-  SwingUtilities.invokeLater { App() }
+  companion object {
+    @JvmStatic
+    fun main(args: Array<String>) {
+      SwingUtilities.invokeLater { App() }
+    }
+  }
 }

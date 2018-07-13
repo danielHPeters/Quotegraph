@@ -1,10 +1,14 @@
 package ch.peters.daniel.quotegraph.view
 
-import com.quotegraph.controller.CoordinatesCalculator
-import com.quotegraph.model.DayQuote
-import com.quotegraph.model.ECoordinates
-import java.awt.*
+import ch.peters.daniel.quotegraph.controller.CoordinatesCalculator
+import ch.peters.daniel.quotegraph.model.DayQuote
+import ch.peters.daniel.quotegraph.model.ECoordinates
 
+import java.awt.Color
+import java.awt.Dimension
+import java.awt.Graphics
+import java.awt.Graphics2D
+import java.awt.RenderingHints
 import javax.swing.JPanel
 
 /**
@@ -69,10 +73,10 @@ class ColumnGraph(data: List<DayQuote>) : JPanel() {
 
     g2.color = Color.red
     (0..100).forEach { i ->
-      val positionX =(i - 1) * ratio
-      val columnHeight = calculator . createCoordinate (i, height.toDouble(), ECoordinates.Y1)
+      val positionX = (i - 1) * ratio
+      val columnHeight = calculator.createCoordinate(i, height.toDouble(), ECoordinates.Y1)
       val windowHeight = height - margin
-      g2.drawRect(positionX +margin, (windowHeight - columnHeight).toInt(), (columnWidth * ratio), columnHeight.toInt())
+      g2.drawRect(positionX + margin, (windowHeight - columnHeight).toInt(), (columnWidth * ratio), columnHeight.toInt())
     }
   }
 

@@ -1,6 +1,6 @@
 package ch.peters.daniel.quotegraph.view
 
-import com.quotegraph.controller.DropDownAction
+import ch.peters.daniel.quotegraph.controller.DropDownAction
 
 import javax.swing.DefaultComboBoxModel
 import javax.swing.JComboBox

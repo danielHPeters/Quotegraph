@@ -1,4 +1,4 @@
-group = "ch.daniel.peters"
+group = "ch.peters.daniel"
 version = "1.0"
 
 plugins {

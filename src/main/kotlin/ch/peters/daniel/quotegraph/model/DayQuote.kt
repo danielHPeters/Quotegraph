@@ -1,6 +1,6 @@
 package ch.peters.daniel.quotegraph.model
 
-import java.util.Date
+import java.time.LocalDateTime
 
 /**
  * Represents data from a daily quote as an object.
@@ -8,13 +8,13 @@ import java.util.Date
  * @author Daniel Peters
  */
 class DayQuote(
-    val quoteDate: Date,
+    val quoteDate: LocalDateTime,
     val open: Double,
     val high: Double,
     val low: Double,
-    val close: Double) : Comparable<DayQuote> {
-
-  override fun compareTo(o: DayQuote): Int {
-    return this.close.compareTo(o.close)
+    val close: Double
+) : Comparable<DayQuote> {
+  override fun compareTo(other: DayQuote): Int {
+    return this.close.compareTo(other.close)
   }
 }

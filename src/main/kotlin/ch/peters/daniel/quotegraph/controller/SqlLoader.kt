@@ -7,6 +7,7 @@ import ch.peters.daniel.quotegraph.interfaces.ISqlConnection
 import java.sql.SQLException
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.ArrayList
 
 /**
@@ -25,13 +26,13 @@ class SqlLoader(override var source: String, private var config: DbConfig) : IDa
     try {
       connection.connect()
       if (!connection.error) {
-        val query = "select * from " + source
+        val query = "SELECT * FROM $source"
         val statement = connection.connection.createStatement()
         val result = statement.executeQuery(query)
         val format = SimpleDateFormat("dd.MM.yyyy")
 
         while (result.next()) {
-          val date = format.parse(result.getString(2))
+          val date = LocalDateTime.parse(result.getString(2))
           val open = result.getDouble(3)
           val high = result.getDouble(4)
           val low = result.getDouble(5)
