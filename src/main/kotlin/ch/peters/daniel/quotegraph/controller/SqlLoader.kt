@@ -6,7 +6,6 @@ import ch.peters.daniel.quotegraph.interfaces.ISqlConnection
 
 import java.sql.SQLException
 import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.ArrayList
 
@@ -29,7 +28,6 @@ class SqlLoader(override var source: String, private var config: DbConfig) : IDa
         val query = "SELECT * FROM $source"
         val statement = connection.connection.createStatement()
         val result = statement.executeQuery(query)
-        val format = SimpleDateFormat("dd.MM.yyyy")
 
         while (result.next()) {
           val date = LocalDateTime.parse(result.getString(2))
