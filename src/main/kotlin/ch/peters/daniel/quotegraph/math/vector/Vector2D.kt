@@ -1,4 +1,4 @@
-package ch.peters.daniel.quotegraph.model.vector
+package ch.peters.daniel.quotegraph.math.vector
 
 import ch.peters.daniel.quotegraph.interfaces.IVector2D
 

@@ -5,6 +5,6 @@ package ch.peters.daniel.quotegraph.model
  *
  * @author Daniel Peters
  */
-enum class ECoordinates {
+enum class Coordinates {
   Y, Y1, X, X1
 }

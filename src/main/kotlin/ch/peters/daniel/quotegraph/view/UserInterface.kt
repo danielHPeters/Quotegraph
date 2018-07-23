@@ -8,7 +8,7 @@ import javax.swing.WindowConstants
  * Create a JFrame container window and add a dropdown.
  *
  * @author Daniel Peters
- * @version 1.0
+ * @version 2.0
  */
 class UserInterface(dropdown: DataSelect) : JFrame() {
   init {

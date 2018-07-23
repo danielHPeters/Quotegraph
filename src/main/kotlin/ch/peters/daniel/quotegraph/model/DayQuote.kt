@@ -6,6 +6,7 @@ import java.time.LocalDateTime
  * Represents data from a daily quote as an object.
  *
  * @author Daniel Peters
+ * @version 2.0
  */
 class DayQuote(
     val quoteDate: LocalDateTime,

@@ -2,7 +2,7 @@ package ch.peters.daniel.quotegraph.view
 
 import ch.peters.daniel.quotegraph.controller.CoordinatesCalculator
 import ch.peters.daniel.quotegraph.model.DayQuote
-import ch.peters.daniel.quotegraph.model.ECoordinates
+import ch.peters.daniel.quotegraph.model.Coordinates
 
 import java.awt.Color
 import java.awt.Dimension
@@ -74,7 +74,7 @@ class ColumnGraph(data: List<DayQuote>) : JPanel() {
     g2.color = Color.red
     (0..100).forEach { i ->
       val positionX = (i - 1) * ratio
-      val columnHeight = calculator.createCoordinate(i, height.toDouble(), ECoordinates.Y1)
+      val columnHeight = calculator.createCoordinate(i, height.toDouble(), Coordinates.Y1)
       val windowHeight = height - margin
       g2.drawRect(positionX + margin, (windowHeight - columnHeight).toInt(), (columnWidth * ratio), columnHeight.toInt())
     }

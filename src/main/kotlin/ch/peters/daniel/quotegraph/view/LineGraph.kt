@@ -2,7 +2,7 @@ package ch.peters.daniel.quotegraph.view
 
 import ch.peters.daniel.quotegraph.controller.CoordinatesCalculator
 import ch.peters.daniel.quotegraph.model.DayQuote
-import ch.peters.daniel.quotegraph.model.ECoordinates
+import ch.peters.daniel.quotegraph.model.Coordinates
 import java.awt.*
 
 import javax.swing.JPanel
@@ -76,10 +76,10 @@ class LineGraph(private val data: List<DayQuote>) : JPanel() {
     g2.color = Color.red
 
     for (i in 1 until data.size) {
-      val y = calculator.createCoordinate(i, panelY, ECoordinates.Y)
-      val y1 = calculator.createCoordinate(i, panelY, ECoordinates.Y1)
-      val x = calculator.createCoordinate(i, panelX, ECoordinates.X)
-      val x1 = calculator.createCoordinate(i, panelX, ECoordinates.X1)
+      val y = calculator.createCoordinate(i, panelY, Coordinates.Y)
+      val y1 = calculator.createCoordinate(i, panelY, Coordinates.Y1)
+      val x = calculator.createCoordinate(i, panelX, Coordinates.X)
+      val x1 = calculator.createCoordinate(i, panelX, Coordinates.X1)
 
       g2.drawLine(x.toInt(), y.toInt(), x1.toInt(), y1.toInt())
       markEvents(g2, i, x, x1)

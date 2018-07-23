@@ -1,7 +1,7 @@
 package ch.peters.daniel.quotegraph.controller
 
 import ch.peters.daniel.quotegraph.model.DayQuote
-import ch.peters.daniel.quotegraph.model.ECoordinates
+import ch.peters.daniel.quotegraph.model.Coordinates
 import java.time.ZoneId
 
 /**
@@ -28,25 +28,25 @@ class CoordinatesCalculator(private val data: List<DayQuote>) {
    * @param coorType Types: x, x1, y, und y1
    * @return Auf Fenster umgewandelte Koordinatenposition zurückgeben
    */
-  fun createCoordinate(index: Int, axis: Double, coorType: ECoordinates): Double {
+  fun createCoordinate(index: Int, axis: Double, coorType: Coordinates): Double {
     var actual = 0.0
     var max = 0.0
     var min = 0.0
 
-    if (coorType == ECoordinates.Y || coorType == ECoordinates.Y1) {
+    if (coorType == Coordinates.Y || coorType == Coordinates.Y1) {
       min = minClose
       max = maxClose
-      actual = if (coorType == ECoordinates.Y) data[index - 1].close else data[index].close
-    } else if (coorType == ECoordinates.X || coorType == ECoordinates.X1) {
+      actual = if (coorType == Coordinates.Y) data[index - 1].close else data[index].close
+    } else if (coorType == Coordinates.X || coorType == Coordinates.X1) {
       min = minTimestamp
       max = maxTimestamp
-      actual = if (coorType == ECoordinates.X) {
+      actual = if (coorType == Coordinates.X) {
         data[index - 1].quoteDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli().toDouble()
       } else {
         data[index].quoteDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli().toDouble()
       }
     }
-    return translateToPanel(axis, actual, min, max, coorType == ECoordinates.Y || coorType == ECoordinates.Y1)
+    return translateToPanel(axis, actual, min, max, coorType == Coordinates.Y || coorType == Coordinates.Y1)
   }
 
 

@@ -25,8 +25,8 @@ import javax.swing.WindowConstants
  * TODO: Improve column and candlestick graphs.
  * TODO: Let the user change the graph types via menu controls.
  *
- * @author d.peters
- * @version 13.01.2017
+ * @author Daniel Peters
+ * @version 2.0
  */
 class App {
   private var defaultSource: String = "data/vw"

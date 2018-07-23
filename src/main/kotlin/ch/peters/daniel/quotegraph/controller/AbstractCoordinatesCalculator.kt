@@ -1,7 +1,7 @@
 package ch.peters.daniel.quotegraph.controller
 
 import ch.peters.daniel.quotegraph.model.DayQuote
-import ch.peters.daniel.quotegraph.model.ECoordinates
+import ch.peters.daniel.quotegraph.model.Coordinates
 import java.time.ZoneId
 
 /**
@@ -29,28 +29,28 @@ abstract class AbstractCoordinatesCalculator(private val data: List<DayQuote>) {
    * @param coorType differentiate between x, x1, y, und y1
    * @return translated coordinates
    */
-  fun createCoordinate(index: Int, axis: Double, coorType: ECoordinates): Double {
+  fun createCoordinate(index: Int, axis: Double, coorType: Coordinates): Double {
     var value: Double
     var max: Double
     var min: Double
 
-    if (coorType == ECoordinates.Y || coorType == ECoordinates.Y1) {
+    if (coorType == Coordinates.Y || coorType == Coordinates.Y1) {
       min = minClose
       max = maxClose
 
-      value = if (coorType == ECoordinates.Y) data[index - 1].close else data[index].close
+      value = if (coorType == Coordinates.Y) data[index - 1].close else data[index].close
 
     } else {
       min = minTimestamp
       max = maxTimestamp
-      value = if (coorType == ECoordinates.X) {
+      value = if (coorType == Coordinates.X) {
         data[index - 1].quoteDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli().toDouble()
       } else {
         data[index].quoteDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli().toDouble()
       }
     }
 
-    return translateToPanel(axis, value, min, max, coorType == ECoordinates.Y || coorType == ECoordinates.Y1)
+    return translateToPanel(axis, value, min, max, coorType == Coordinates.Y || coorType == Coordinates.Y1)
   }
 
   abstract fun translateToPanel(side: Double, value: Double, max: Double, min: Double, inverted: Boolean): Double

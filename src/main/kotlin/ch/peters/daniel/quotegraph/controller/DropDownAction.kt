@@ -13,10 +13,11 @@ import javax.swing.JPanel
  * selected data.
  *
  * @author Daniel Peters
+ * @version 2.0
  */
 class DropDownAction(private val loader: IDataLoader, private val canvas: JPanel) : ActionListener {
   override fun actionPerformed(ae: ActionEvent) {
-    val cb =  ae.source as JComboBox<*>
+    val cb = ae.source as JComboBox<*>
     val location = "data/" + cb.selectedItem
     loader.source = location
     loader.load()

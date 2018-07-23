@@ -4,7 +4,7 @@ package ch.peters.daniel.quotegraph.controller
  * Database configuration information container class.
  *
  * @author Daniel Peters
- * @version 1.2
+ * @version 2.0
  */
 class DbConfig(
     var type: String,

@@ -7,9 +7,10 @@ import java.sql.DriverManager
 import java.sql.SQLException
 
 /**
- * Opens a mysql connection. Requires a DbConfig object in order to connect.
+ * Opens a connection to an SQL server.
  *
  * @author Daniel Peters
+ * @version 2.0
  */
 class SqlConnection(override var config: DbConfig) : ISqlConnection {
   override lateinit var connection: Connection
