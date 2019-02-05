@@ -10,9 +10,9 @@ interface IVector2D {
   var x: Double
   var y: Double
 
-  fun add( vector: IVector2D)
+  fun add(vector: IVector2D)
 
-  fun sub( vector: IVector2D)
+  fun sub(vector: IVector2D)
 
   fun mult(scalar: Double)
 

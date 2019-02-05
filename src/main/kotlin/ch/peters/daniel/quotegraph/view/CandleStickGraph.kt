@@ -98,7 +98,7 @@ class CandleStickGraph(val data: List<DayQuote>) : JPanel() {
    * @param leftRightMargin margin on x dimension
    */
   private fun drawCandle(
-      g2: Graphics2D, open: Double, close: Double, high: Double, low: Double, leftRightMargin: Int) {
+    g2: Graphics2D, open: Double, close: Double, high: Double, low: Double, leftRightMargin: Int) {
     val lineTopStartY = 50
     val rectHeight: Double
     val topLineLength: Double
@@ -128,7 +128,7 @@ class CandleStickGraph(val data: List<DayQuote>) : JPanel() {
   /**
    * Draw multiple candlesticks in loop.
    *
-   * @param g2 graphics context
+   * @param g2 Graphics context
    */
   private fun candleDrawingLoop(g2: Graphics2D) {
     var leftRightMargin = 0
@@ -147,7 +147,7 @@ class CandleStickGraph(val data: List<DayQuote>) : JPanel() {
   /**
    * Main drawing function draws all items on the JPanel area.
    *
-   * @param g Graphics Objekt zum Zeichnen
+   * @param g Graphics context
    */
   override fun paintComponent(g: Graphics) {
     val g2 = g as Graphics2D

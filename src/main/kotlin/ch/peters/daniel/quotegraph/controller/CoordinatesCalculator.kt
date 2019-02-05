@@ -25,28 +25,28 @@ class CoordinatesCalculator(private val data: List<DayQuote>) {
    *
    * @param index    Index in ArrayList
    * @param axis     height or width
-   * @param coorType Types: x, x1, y, und y1
-   * @return Auf Fenster umgewandelte Koordinatenposition zurückgeben
+   * @param coordinate Types: x, x1, y, und y1
+   * @return Transformed coordinate
    */
-  fun createCoordinate(index: Int, axis: Double, coorType: Coordinates): Double {
+  fun createCoordinate(index: Int, axis: Double, coordinate: Coordinates): Double {
     var actual = 0.0
     var max = 0.0
     var min = 0.0
 
-    if (coorType == Coordinates.Y || coorType == Coordinates.Y1) {
+    if (coordinate == Coordinates.Y || coordinate == Coordinates.Y1) {
       min = minClose
       max = maxClose
-      actual = if (coorType == Coordinates.Y) data[index - 1].close else data[index].close
-    } else if (coorType == Coordinates.X || coorType == Coordinates.X1) {
+      actual = if (coordinate == Coordinates.Y) data[index - 1].close else data[index].close
+    } else if (coordinate == Coordinates.X || coordinate == Coordinates.X1) {
       min = minTimestamp
       max = maxTimestamp
-      actual = if (coorType == Coordinates.X) {
+      actual = if (coordinate == Coordinates.X) {
         data[index - 1].quoteDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli().toDouble()
       } else {
         data[index].quoteDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli().toDouble()
       }
     }
-    return translateToPanel(axis, actual, min, max, coorType == Coordinates.Y || coorType == Coordinates.Y1)
+    return translateToPanel(axis, actual, min, max, coordinate == Coordinates.Y || coordinate == Coordinates.Y1)
   }
 
 
